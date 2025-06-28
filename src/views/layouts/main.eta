@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%~ include('@head/branding', it) %>
+    <%~ include('@head/seo', it) %>
+    <%~ include('@head/styles', it) %>
+    <%~ include('@head/scripts', it) %>
+
+</head>
+<body>
+
+    <%~ include('@navs/main', it) %>
+
+    <div id='alerts'></div>
+
+    <div class='content'>
+        <aside id='sideNav'>
+            <%~ include('@navs/side', it) %>
+        </aside>
+
+        <main class='container'>
+            <%~ body %>
+        </main>
+    </div>
+
+    <%~ include('@scripts/scripts', it) %>
+
+</body>
+</html>

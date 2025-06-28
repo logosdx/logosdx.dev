@@ -1,0 +1,26 @@
+{
+    "links": [
+        {
+            "label": "Packages",
+            "icon": "fa-sharp fa-box",
+            "href": "/packages/dom"
+        },
+        {
+            "label": "Docs",
+            "icon": "fa-sharp fa-book",
+            "href": "/docs"
+        },
+        {
+            "label": "Guides",
+            "icon": "fa-sharp fa-book-open",
+            "href": "/guides"
+        }
+    ],
+    "social": [
+        {
+            "icon": "fa-brands fa-github",
+            "href": "https://github.com/logosdx/monorepo",
+            "label": "GitHub"
+        }
+    ]
+}

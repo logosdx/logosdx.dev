@@ -1,0 +1,7 @@
+<a class='logo' href='/'>
+    <img src="<%= assetUrl('img/app-icon-red.png') %>" alt='LogosDX' />
+    <section>
+        <span class='name'>LogosDX</span>
+        <span class='slogan'>Let There Be Logic</span>
+    </section>
+</a>

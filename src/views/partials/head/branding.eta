@@ -1,0 +1,7 @@
+<meta name="theme-color" content="#9c1424">
+<meta name="msapplication-TileColor" content="#9c1424">
+<meta name="msapplication-TileImage" content="<%= assetUrl('img/app-icon-red.png') %>">
+
+<link rel="icon" href="<%= assetUrl('img/app-icon-red.png') %>" type="image/svg+xml">
+<link rel="icon" href="<%= assetUrl('img/app-icon-red.png') %>" type="image/png">
+<link rel="apple-touch-icon" href="<%= assetUrl('img/app-icon-red.png') %>">

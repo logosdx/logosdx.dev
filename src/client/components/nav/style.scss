@@ -1,0 +1,298 @@
+@use "sass:color";
+
+@use '../../utils/variables.scss' as *;
+@use '../../utils/mixins.scss' as *;
+
+$color-background-nav: #f0f0f0;
+$color-border-nav: #00000010;
+$color-shadow-nav: #00000020;
+
+$width-side-nav: 200px;
+$height-header: 3.25rem;
+
+.logo {
+    font-size: 1.25rem;
+    font-weight: 700;
+    @include flex-center;
+
+    img {
+        width: 40px;
+        margin-right: 0.5rem;
+    }
+
+    section {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+
+        .name {
+            color: #000;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .slogan {
+            font-size: 0.6rem;
+            font-weight: 400;
+            color: #00000050;
+        }
+    }
+}
+
+body > header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    nav {
+        @include flex-center;
+        justify-content: space-between;
+        padding: 0 1rem;
+        height: $height-header;
+
+        background-color: $color-background-nav;
+        box-shadow: 3px 3px 3px 0 $color-shadow-nav;
+        border-bottom: 3px solid $color-brand;
+
+        .logo, ul {
+            margin: 0;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+        ul {
+            @include flex-center;
+            gap: 0.25rem;
+
+            li {
+                margin: 0;
+                list-style: none;
+            }
+
+            li a {
+                font-size: 1.125rem;
+                font-weight: 500;
+                color: #000;
+                text-decoration: none;
+                padding: 0.5rem 1rem;
+                border-radius: 0.5rem;
+                transition: background-color 0.3s ease;
+
+                &:hover {
+                    background-color: #00000010;
+                }
+            }
+        }
+
+        #social {
+            @include hide-mobile;
+        }
+
+        #links {
+            @include hide-mobile;
+        }
+
+        #mobile-links {
+            @include hide-desktop;
+        }
+    }
+}
+
+nav#mobile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 102;
+    width: 100vw;
+    height: 100vh;
+
+    background-color: color.adjust($color-background-nav, $lightness: 2%);
+    transform: translateX(100%);
+    transition: transform 0.1s ease;
+
+    &.open {
+        transform: translateX(0);
+    }
+
+    & > section {
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem;
+    }
+
+    .close {
+        width: 3rem;
+        height: 3rem;
+        font-size: 1.5rem;
+        cursor: pointer;
+
+        color: $color-brand;
+
+        line-height: 3rem;
+        text-align: center;
+    }
+
+
+    ul {
+        padding: 0.5rem 1rem;
+        margin: 0;
+
+        li {
+            margin: 0;
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            padding: 0.5rem;
+            color: #000;
+            width: 100%;
+            display: inline-block;
+            border-radius: 0.5rem;
+
+            &:hover, &.active {
+                background-color: #00000010;
+            }
+        }
+    }
+
+    @include hide-desktop;
+}
+
+body > .content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    @include on-mobile {
+        display: block;
+    }
+
+    aside {
+        max-width: $width-side-nav;
+        flex-shrink: 0;
+        flex-basis: $width-side-nav;
+        padding: 1rem;
+        position: sticky;
+        top: $height-header;
+        z-index: 101;
+        height: calc(100vh - $height-header);
+        background-color: $color-background-nav;
+        box-shadow: 3px 3px 3px 0 $color-shadow-nav;
+
+        nav {
+            overflow-y: auto;
+            height: 100%;
+        }
+
+        .toggle {
+            display: none;
+
+            position: absolute;
+            bottom: 1rem;
+            right: -2.5rem;
+            cursor: pointer;
+            background-color: $color-brand;
+
+            border-radius: 0 0.25rem 0.25rem 0;
+            box-shadow: 1px 2px 3px 0 #00000050;
+
+            font-size: 1.5rem;
+            color: #fff;
+
+            & i {
+
+                width: 2.5rem;
+                height: 2.5rem;
+                line-height: 2.5rem;
+                text-align: center;
+            }
+
+            &:hover {
+                transform: translateY(0);
+            }
+        }
+
+        @include on-mobile {
+            position: fixed;
+            top: $height-header;
+            left: 0;
+            max-width: 90vw;
+            height: calc(100vh - $height-header);
+
+            transform: translateX(-100%);
+            transition: transform 0.1s ease;
+
+            &.open {
+                transform: translateX(0);
+            }
+
+            .toggle {
+                display: block;
+
+                // Make a bounce animation
+                // for when the page loads
+                // the user sees this toggle
+                animation: heartBeat 1s ease-in-out;
+            }
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            li {
+                margin: 0;
+
+                a {
+                    display: inline-block;
+                    width: 100%;
+                    font-size: 1rem;
+                    font-weight: 500;
+                    color: #000;
+                    text-decoration: none;
+                    padding: 0.25rem 0.5rem;
+
+                    &:hover, &.active {
+                        background-color: #00000010;
+                    }
+                }
+            }
+        }
+
+        .toc {
+            padding-left: 0.5rem;
+
+            & > li {
+                margin: 0;
+                padding: 0;
+
+                & > .toc {
+                    a { font-size: 0.8rem; }
+
+                    & > li > .toc a {
+                        font-size: 0.6rem;
+                    }
+                }
+            }
+        }
+
+        footer {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid $color-border-nav;
+            text-align: center;
+            font-size: 0.7rem;
+            color: #00000070;
+            text-shadow: 0 1px 0 #ffffff;
+        }
+    }
+
+    main {
+        flex: 1;
+        padding: 1rem;
+        overflow-y: auto;
+    }
+}

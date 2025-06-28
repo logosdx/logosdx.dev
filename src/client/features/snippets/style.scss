@@ -1,0 +1,90 @@
+@use '../../utils/mixins' as *;
+@use '../../utils/variables' as *;
+
+$color-gradient: linear-gradient(to right bottom, #ee9187, #e9b579);
+$color-border: $color-gh-dark-bg;
+
+.snippet {
+
+    @include styled-code-container(
+        $color-border: $color-gh-dark-bg,
+        $color-bg: $color-brand,
+        $color-gradient1: #ee9187,
+        $color-gradient2: #e9b579
+    );
+
+    .copy {
+        position: absolute;
+        @include flex-center;
+        top: 0.5rem;
+        right: 0.5rem;
+        padding: 0.25rem;
+        width: 2rem;
+        height: 2rem;
+
+        color: #fff;
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+        cursor: pointer;
+
+        border-radius: 0.5rem;
+        background-color: #000;
+        box-shadow: 0 0 0.5rem 0 #000;
+
+    }
+
+    .lang {
+        position: absolute;
+        @include flex-center;
+
+        top: 0;
+        left: 0;
+
+        font-family: $font-family-mono;
+        font-size: 0.6rem;
+        color: #fff;
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem 0 0.25rem 0;
+        background-color: $color-gh-dark-bg;
+
+        &.js, &.javascript {
+            color: #f7df1e;
+        }
+
+        &.ts, &.typescript {
+            color: #3178c6;
+        }
+
+        &.html {
+            color: #e34c26;
+        }
+
+        &.css {
+            color: #1572b6;
+        }
+
+        &.bash {
+            color: #fff;
+        }
+
+        &.json {
+            color: #fff;
+        }
+    }
+
+    &:hover {
+        .copy {
+            opacity: 0.5;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
+
+    pre {
+        box-shadow: 2px 2px 0.5rem 0 #000;
+        border: 1px solid $color-border;
+        margin: 0;
+    }
+}

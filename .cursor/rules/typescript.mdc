@@ -1,0 +1,189 @@
+---
+description:
+globs: *.ts
+alwaysApply: false
+---
+# 🧠 TypeScript Development Standards
+
+This document defines structure, naming, error handling, and architectural patterns for TypeScript code. The goal is to create clean, readable, testable, and deterministic code.
+
+---
+
+## 🧾 Code Style Conventions
+
+### 🔤 Syntax & Formatting
+
+- Newline **after** function declaration:
+  ```ts
+  function doSomething() {
+
+      // logic
+  }
+  ```
+
+- Newline **after** opening blocks:
+  ```ts
+  if (condition) {
+
+      // logic
+  }
+  ```
+
+- Prefer **vertical space** over horizontal when functions are long.
+
+- Group functions in this order:
+  1. Declaration block
+  2. Validation block
+  3. Business logic block
+  4. Commit block
+
+---
+
+## 📛 Naming Philosophy
+
+- Use **meaningful names** that explain **what** the thing is.
+  - ✅ `userExists`, `fetchInvoiceTotal`
+  - ❌ `x`, `data`, `handleIt`
+
+- Functions and variables should **read like English**.
+
+---
+
+## 💬 Comments & JSDoc
+
+- JSDoc all **functions and classes**.
+- Comments and docs must explain **WHY** something exists — not how or what.
+- **Ambiguous validation logic must be commented** explicitly.
+- Always provide **usage examples**:
+  ```ts
+  /**
+   * Throttles notifications per user to prevent spam.
+   *
+   * @example
+   * const limiter = new ThrottleEngine({ maxPerMinute: 3 });
+   */
+  ```
+
+---
+
+## 🚫 Error Handling
+
+- **NEVER use `try-catch`**.
+- Always use utilities from `@logosdx/kit` — these provide safe, legible, consistent control flow.
+
+  ```ts
+  import { attempt, attemptSync } from '@logosdx/kit'
+
+  const [result, err] = await attempt(() => doSomethingAsync())
+
+  if (err) {
+
+      return respond(500, 'Failed to complete')
+  }
+
+  const [value, syncErr] = attemptSync(() => riskySyncOp())
+
+  if (syncErr) {
+
+      throw syncErr
+  }
+  ```
+
+---
+
+## 🧰 Required Utility Usage
+
+Always prefer using flow-control utilities from `@logosdx/kit`:
+- `attempt`, `attemptSync`
+- `batch`
+- `circuitBreaker`
+- `debounce`, `throttle`
+- `memo`, `rateLimit`, `retry`, `withTimeout`
+- `ObserverEngine` – for reactive logic
+- `FetchEngine` – wrapper around Fetch API with retry, timeout, interceptors
+
+These tools enforce predictable behavior, remove ambiguity, and reduce boilerplate.
+
+---
+
+## 🧱 Function Structure
+
+Every function should follow this layout:
+
+```ts
+/**
+ * Updates the email address for a given user.
+ *
+ * Ensures email format is valid and user exists before applying update.
+ *
+ * @example
+ * const [user, err] = await modifyUserEmail(userID, newEmail);
+ */
+function modifyUserEmail(userID: UUID, newEmail: EmailAddress) {
+
+    // === Declaration block ===
+    let retryCount = 0;
+
+    // === Validation block ===
+    if (!isValidEmail(newEmail)) {
+
+        // This guards against malformed input from external systems
+        return [null, new InvalidEmailError()];
+    }
+
+    // === Business logic block ===
+    const [user, err] = await attempt(() => fetchUser(userID));
+
+    if (err || !user) {
+
+        return [null, new UserNotFoundError()];
+    }
+
+    user.email = newEmail;
+
+    // === Commit block ===
+    const [ok, saveErr] = await attempt(() => saveUser(user));
+
+    if (saveErr) {
+
+        return [null, saveErr];
+    }
+
+    return [user, null];
+}
+```
+
+Do not actually include `// === Declaration block ===`, `// === Commit block ===`, etc, these are just to mark the guidelines. If any comment should be added, it should be meaningful and explain WHY and WHAT.
+
+---
+
+## 📦 Imports & Execution
+
+- Group imports:
+  ```ts
+  import {
+      attempt,
+      batch,
+      FetchEngine,
+      memo
+  } from '@logosdx/kit'
+  ```
+
+- Use vertical spacing in functions, `for`, `if`, `catch`, etc.
+
+  ```ts
+  setInterval(
+      () => {
+
+          refreshCache()
+      },
+      10000
+  )
+
+  for (const x of list) {
+
+      doThing(x)
+  }
+  ```
+
+---

@@ -1,0 +1,516 @@
+---
+description:
+globs: src/server/**/*.ts
+alwaysApply: false
+---
+# 🚀 HapiJS Backend Development Standards
+
+This document defines backend development patterns for HapiJS applications, targeting `src/server/**/*.ts` files. These rules build upon the TypeScript standards and focus on Hapi's ecosystem and architectural patterns.
+
+---
+
+## 🏗️ Server Framework Architecture
+
+### Core Framework References
+- `Server` - Always refers to `@hapi/hapi`'s `Server` class
+- `Request` - Always refers to `@hapi/hapi`'s `Request` class
+- `Response` - Always refers to `@hapi/hapi`'s `Response` class
+- `ResponseToolkit` (h) - Always refers to `@hapi/hapi`'s response toolkit
+
+### Application Settings
+- Application settings are typed in Hapi's `ServerApplicationState` interface
+- Access settings via custom decorator: `server.appSettings()`
+- All application settings MUST be validated in `src/server/helpers/environments.ts`
+
+---
+
+## 🔌 Plugin Architecture Patterns
+
+### Plugin Structure
+Every plugin should follow this structure:
+
+```ts
+/**
+ * Manages user authentication and session handling.
+ *
+ * Integrates with Yar for session management and provides
+ * authentication strategies for protected routes.
+ */
+export const authPlugin: Plugin<AuthOptions> = {
+    name: 'auth-plugin',
+    version: '1.0.0',
+    dependencies: ['yar', 'vision'],
+
+    async register(server: Server, options: AuthOptions) {
+
+        // Register authentication schemes
+        // Register authentication strategies
+        // Set up session handling
+        // Register related routes
+    }
+}
+```
+
+### Plugin Dependencies
+- **Vision** (SSR) - Preferred for server-side rendering with Eta templates
+- **Nes** (WebSockets) - Preferred for real-time communication
+- **Catbox/Catbox-redis** - Preferred for server-side caching
+- **Yar** - Preferred for cookie sessions with server-side user data caching
+
+### Plugin Registration
+- All plugins are registered centrally in `src/server/plugins/index.ts`
+- Use `ServerDependentFn<Plugin>` for plugins requiring server instance access
+- Group related functionality into focused plugins
+- Always specify plugin dependencies explicitly
+- Use semantic versioning for internal plugins
+
+---
+
+## 🛣️ Route Patterns
+
+### Route Declaration
+Routes should be organized by feature/domain:
+
+```ts
+/**
+ * Handles user profile operations including view, edit, and delete.
+ *
+ * All routes require authentication and validate user permissions
+ * before allowing access to profile data.
+ */
+export const profileRoutes: RouteConfig[] = [
+    {
+        method: 'GET',
+        path: '/profile/{userId}',
+        options: {
+            auth: 'session',
+            validate: {
+                params: Joi.object({
+                    userId: Joi.string().uuid().required()
+                })
+            },
+            handler: async (request: Request, h: ResponseToolkit) => {
+
+                const { userId } = request.params;
+
+                // Validate user permissions
+                // Fetch user profile data
+                // Return view or JSON response
+            }
+        }
+    }
+];
+```
+
+### Route Organization
+- Place routes in `src/server/routes/` by feature (users.ts, articles.ts, etc.)
+- All routes are registered centrally in `src/server/routes/index.ts`
+- Use `ServerDependentFn<RouteConfig[]>` for routes requiring server instance access
+- Group related routes in arrays for easier management
+- Always validate inputs using Joi schemas
+
+### Response Patterns
+- Use `h.view()` for SSR responses with Vision
+- Use `h.response().code()` for API responses
+- Always handle errors gracefully and log appropriately
+- Prefer returning structured data over raw responses
+
+---
+
+## 📝 Logging Standards
+
+### Server Logging
+Use `server.log()` for application-level events:
+
+```ts
+// System events
+server.log(['info', 'startup'], 'Cache connection established');
+server.log(['error', 'database'], 'Connection pool exhausted');
+server.log(['debug', 'auth'], 'Token validation completed');
+```
+
+### Request Logging
+Use `request.log()` for request-specific events:
+
+```ts
+// Request lifecycle events
+request.log(['info', 'validation'], 'User input validated successfully');
+request.log(['warn', 'rate-limit'], `Rate limit approaching for user ${userId}`);
+request.log(['error', 'handler'], 'Failed to process user request');
+```
+
+### Log Tags Convention
+- Use descriptive tag arrays: `['level', 'category', 'subcategory']`
+- Standard levels: `info`, `warn`, `error`, `debug`
+- Standard categories: `startup`, `shutdown`, `database`, `auth`, `cache`, `validation`, `handler`
+- Always include relevant context data in log messages
+
+---
+
+## 🛠️ Development Patterns
+
+### Helper Functions
+Place utility functions in `src/server/helpers/`:
+
+```ts
+/**
+ * Extracts and validates user permissions from request context.
+ *
+ * Checks both session data and database permissions to ensure
+ * user has required access level for the requested operation.
+ */
+export const extractUserPermissions = async (request: Request): Promise<UserPermissions> => {
+
+    const sessionData = request.yar.get('user');
+
+    if (!sessionData) {
+
+        throw Boom.unauthorized('Session required');
+    }
+
+    // Validate and return permissions
+}
+```
+
+### Server Methods
+Use `src/server/methods/` for server-wide business logic. All methods are registered centrally in `methods/index.ts`:
+
+```ts
+import type { MethodConfig, ServerDependentFn } from '../helpers/hapi.js';
+
+/**
+ * Retrieves user profile data with automatic caching.
+ *
+ * Hapi automatically handles caching, key generation, and cache invalidation
+ * based on the method arguments when cache options are configured.
+ */
+export const getUserProfileMethod: MethodConfig = {
+    name: 'getUserProfile',
+    method: async (userId: string): Promise<UserProfile> => {
+
+        // Business logic only - Hapi handles caching automatically
+        const [user, err] = await attempt(() => database.getUserProfile(userId));
+
+        if (err) {
+
+            throw Boom.internal('Failed to retrieve user profile');
+        }
+
+        if (!user) {
+
+            throw Boom.notFound('User profile not found');
+        }
+
+        return user;
+    },
+    options: {
+        cache: {
+            expiresIn: 60 * 1000 * 15, // 15 minutes
+            generateTimeout: 2000
+        }
+    }
+}
+
+/**
+ * Server method with custom key generation for complex parameters.
+ */
+export const getOrderSummaryMethod: MethodConfig = {
+    name: 'getOrderSummary',
+    method: async (orderFilter: OrderFilter): Promise<OrderSummary> => {
+
+        // Business logic implementation
+        const [summary, err] = await attempt(() => database.getOrderSummary(orderFilter));
+
+        if (err) {
+
+            throw Boom.internal('Failed to retrieve order summary');
+        }
+
+        return summary;
+    },
+    options: {
+        cache: {
+            expiresIn: 60 * 1000 * 5, // 5 minutes
+            generateTimeout: 2000
+        },
+        generateKey: (orderFilter: OrderFilter) => {
+
+            // Custom key generation for complex object parameters
+            return `${orderFilter.userId}:${orderFilter.status}:${orderFilter.dateRange}`;
+        }
+    }
+}
+
+/**
+ * Server-dependent method configuration that requires server instance.
+ */
+export const cacheAwareMethod: ServerDependentFn<MethodConfig> = (server: Server) => {
+
+    return {
+        name: 'getCachedData',
+        method: async (key: string): Promise<CachedData> => {
+
+            // Access server settings for cache configuration
+            const settings = server.appSettings();
+
+            // Business logic using server context
+        },
+        options: {
+            cache: {
+                cache: 'memory',
+                expiresIn: 60 * 1000 * 10,
+                generateTimeout: 2000
+            }
+        }
+    };
+};
+```
+
+### Server Dependency Injection
+Use `ServerDependentFn<T>` for components requiring server instance access:
+
+```ts
+import type { ServerDependentFn } from '../helpers/hapi.js';
+
+/**
+ * Plugin that requires server instance for configuration.
+ */
+export const dynamicPlugin: ServerDependentFn<Plugin> = (server: Server) => {
+
+    const settings = server.appSettings();
+
+    return {
+        name: 'dynamic-plugin',
+        version: '1.0.0',
+        register: async (server: Server, options: any) => {
+
+            // Plugin logic using server settings
+            server.route({
+                method: 'GET',
+                path: '/api/config',
+                handler: () => ({ url: settings.url })
+            });
+        }
+    };
+};
+
+/**
+ * Routes that depend on server configuration.
+ */
+export const dynamicRoutes: ServerDependentFn<RouteConfig[]> = (server: Server) => {
+
+    const { data } = server.appSettings();
+
+    return [
+        {
+            method: 'GET',
+            path: '/metadata',
+            handler: () => data.metadata
+        }
+    ];
+};
+```
+
+---
+
+## 🎯 Hapi API Integration Patterns
+
+### Authentication
+Define authentication components in appropriate directories. Registration happens centrally:
+
+```ts
+// In auth/schemes/custom-jwt.ts
+export const customJwtScheme = (server: Server, options: any) => {
+
+    return {
+        authenticate: async (request: Request, h: ResponseToolkit) => {
+
+            // Authentication logic
+            return h.authenticated({ credentials: { user: 'john' } });
+        }
+    };
+};
+
+// In auth/strategies/api-jwt.ts
+export const apiJwtStrategy = {
+    scheme: 'custom-jwt',
+    options: {
+        // Strategy options
+    }
+};
+```
+
+### Caching
+Cache configuration is handled in server setup. Use proper method configuration:
+
+```ts
+// Server method with caching - cache provisioning handled centrally
+export const cachedMethod: MethodConfig = {
+    name: 'getCachedData',
+    method: async (key: string): Promise<Data> => {
+
+        // Business logic only
+        return await fetchData(key);
+    },
+    options: {
+        cache: {
+            cache: 'memory', // References centrally provisioned cache
+            expiresIn: 30 * 1000,
+            generateTimeout: 2000
+        }
+    }
+};
+```
+
+### Extensions
+Define extensions that are registered through plugin system:
+
+```ts
+// In extensions/request-lifecycle.ts
+export const requestLifecycleExtension = {
+    type: 'onPreHandler',
+    method: async (request: Request, h: ResponseToolkit) => {
+
+        request.log(['debug', 'lifecycle'], 'Pre-handler extension executed');
+
+        return h.continue;
+    }
+};
+```
+
+### Subscriptions (Nes)
+Define WebSocket subscriptions for registration through plugins:
+
+```ts
+// In subscriptions/notifications.ts
+export const notificationSubscription = {
+    path: '/notifications/{userId}',
+    options: {
+        filter: (path: string, message: any, options: any) => {
+
+            return message.userId === options.credentials.userId;
+        }
+    }
+};
+```
+
+---
+
+## 📁 File Organization
+
+### Directory Structure
+```
+src/server/
+├── helpers/           # Utility functions and types
+├── methods/           # Server method definitions (registered via methods/index.ts)
+├── plugins/           # Feature-based plugins (registered via plugins/index.ts)
+├── routes/            # Route definitions by domain (registered via routes/index.ts)
+├── auth/              # Authentication schemes/strategies definitions
+├── extensions/        # Request lifecycle extension definitions
+├── caches/            # Cache configuration definitions
+└── subscriptions/     # WebSocket subscription definitions
+```
+
+**Note**: All registration happens centrally in the main server file (`src/server/index.ts`) using the index files from each directory. Individual files define components using proper types (`MethodConfig`, `ServerDependentFn<T>`, etc.).
+
+### Key Types for Component Definition
+Use these types from `src/server/helpers/hapi.ts` throughout your components:
+
+```ts
+import type { MethodConfig, ServerDependentFn } from '../helpers/hapi.js';
+
+// For standard server methods
+export const myMethod: MethodConfig = { ... };
+
+// For server methods requiring server instance access
+export const myServerDependentMethod: ServerDependentFn<MethodConfig> = (server) => ({ ... });
+
+// For plugins requiring server instance access
+export const myPlugin: ServerDependentFn<Plugin> = (server) => ({ ... });
+
+// For routes requiring server instance access
+export const myRoutes: ServerDependentFn<RouteConfig[]> = (server) => [{ ... }];
+```
+
+### Naming Conventions
+- Use kebab-case for file names: `user-profile.ts`
+- Use PascalCase for class/interface names: `UserProfile`
+- Use camelCase for function/variable names: `getUserProfile`
+- Use SCREAMING_SNAKE_CASE for constants: `MAX_RETRY_ATTEMPTS`
+
+### Export Patterns
+```ts
+// Single responsibility exports
+export const userRoutes = [...];
+export const authScheme = {...};
+export const cacheConfig = {...};
+
+// Grouped exports for related functionality
+export const userMethods = {
+    getProfile: getUserProfile,
+    updateProfile: updateUserProfile,
+    deleteProfile: deleteUserProfile
+};
+```
+
+---
+
+## 🧪 Error Handling
+
+### Boom Integration
+Always use Boom for HTTP errors:
+
+```ts
+import Boom from '@hapi/boom';
+
+// Client errors
+throw Boom.badRequest('Invalid user input provided');
+throw Boom.unauthorized('Authentication required');
+throw Boom.forbidden('Insufficient permissions');
+throw Boom.notFound('User profile not found');
+
+// Server errors
+throw Boom.internal('Database connection failed');
+```
+
+### Error Extensions
+Provide meaningful error context:
+
+```ts
+const error = Boom.badRequest('Validation failed');
+error.output.payload.validation = validationErrors;
+error.output.payload.timestamp = new Date().toISOString();
+
+throw error;
+```
+
+---
+
+## 🔄 Async Patterns
+
+Follow the TypeScript standards for error handling - NEVER use try-catch:
+
+```ts
+import { attempt } from '@logosdx/kit';
+
+/**
+ * Safely retrieves user data with proper error handling.
+ */
+export const safeGetUser = async (userId: string) => {
+
+    const [user, err] = await attempt(() => database.getUser(userId));
+
+    if (err) {
+
+        server.log(['error', 'database'], `Failed to fetch user ${userId}: ${err.message}`);
+        throw Boom.internal('User retrieval failed');
+    }
+
+    if (!user) {
+
+        throw Boom.notFound('User not found');
+    }
+
+    return user;
+};
+```

@@ -1,0 +1,7 @@
+@use '../utils/variables.scss' as *;
+@use '../utils/mixins.scss' as *;
+
+.container {
+    max-width: $layout-max-width;
+    margin: 0 auto;
+}

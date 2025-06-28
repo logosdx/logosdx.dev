@@ -1,0 +1,51 @@
+{
+  "name": "logosdx",
+  "version": "1.0.0",
+  "description": "LogosDX Markdown Server",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "watch": "tsx scripts/watch.ts",
+    "server": "tsx src/server/index.ts",
+    "client": "vite build --config src/client/vite.config.ts",
+    "start": "tsx src/server/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/boom": "^10.0.1",
+    "@hapi/bourne": "^3.0.0",
+    "@hapi/catbox-memory": "^6",
+    "@hapi/hapi": "^21.4",
+    "@hapi/hoek": "^11.0.7",
+    "@hapi/inert": "^7.1.0",
+    "@hapi/nes": "^14.0.1",
+    "@hapi/vision": "^7.0.3",
+    "@hapi/wreck": "^18.1.0",
+    "@logosdx/kit": "^1.0.4",
+    "eta": "^3.5.0",
+    "exiting": "^7.0.0",
+    "joi": "^17.13.3",
+    "markdown-it": "^14.1.0",
+    "markdown-it-abbr": "^2.0.0",
+    "markdown-it-anchor": "^9.2.0",
+    "markdown-it-emoji": "^3.0.0",
+    "markdown-it-footnote": "^4.0.0",
+    "markdown-it-front-matter": "^0.2.4",
+    "markdown-it-table-of-contents": "^0.8.0",
+    "markdown-it-task-lists": "^2.1.1",
+    "xml-js": "^1.6.11",
+    "yaml": "^2.7.0"
+  },
+  "devDependencies": {
+    "@types/markdown-it": "^14",
+    "@types/node": "^22",
+    "@logosdx/dom": "^1.1.1",
+    "chalk": "^5.4",
+    "sass": "^1.89",
+    "tsx": "^4.19",
+    "typescript": "^5.8",
+    "vite": "^6"
+  }
+}

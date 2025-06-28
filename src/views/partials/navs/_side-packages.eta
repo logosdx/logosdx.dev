@@ -1,0 +1,13 @@
+<h2>Packages</h2>
+<ul>
+    <% packages.forEach(pkg => { %>
+        <li>
+            <a
+                href="/packages/<%= pkg.slug %>"
+                class="<%= isActiveClass(currentPath, pkg.slug) %>"
+            >
+                <%= pkg.title %>
+            </a>
+        </li>
+    <% }) %>
+</ul>

@@ -1,0 +1,88 @@
+@use "sass:color";
+
+@use '../../utils/variables.scss' as *;
+@use '../../utils/mixins.scss' as *;
+
+@mixin alert-color($color, $text-color) {
+    background-color: $color;
+    color: color.mix($text-color, $color, 70%);
+    border: 1px solid color.adjust($color, $lightness: -5%);
+}
+
+#alerts {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 320px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    user-select: none;
+}
+
+.alert {
+    padding: 0.5rem 2.5rem 0.5rem 2.5rem;
+    border-radius: 0.25rem;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+
+    opacity: 0.7;
+    transition: opacity 0.1s ease-in-out;
+
+    position: relative;
+
+    @include alert-color($color-background-code, $color-text-primary);
+
+    &.success {
+        @include alert-color($color-success, $color-text-invert);
+    }
+
+    &.error {
+        @include alert-color($color-error, $color-text-invert);
+    }
+
+    &.warning {
+        @include alert-color($color-warning, $color-text-invert);
+    }
+
+    &.info {
+        @include alert-color($color-info, $color-text-invert);
+    }
+
+    .close, .copy {
+        position: absolute;
+        @include flex-center;
+        top: 0;
+        cursor: pointer;
+        height: 2.5rem;
+        width: 2.5rem;
+    }
+
+    .close {
+        left: 0;
+    }
+
+    .copy {
+        right: 0;
+        opacity: 0;
+    }
+
+    .countdown {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 2px;
+        background-color: #00000050;
+    }
+
+
+    &:hover {
+        opacity: 1;
+
+        .copy {
+            opacity: 1;
+        }
+    }
+
+}

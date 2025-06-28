@@ -1,0 +1,87 @@
+---
+description:
+globs: *.eta
+alwaysApply: false
+---
+## Eta Template Rules
+
+### Core Syntax
+
+- `<%=` - Output escaped content
+- `<%-` - Output unescaped content
+- `<%` - JavaScript code block
+- `<%#` - Comments
+- `<%~` - Include partials (sync)
+- `<%~ await` - Include async partials
+- `<%*` - Whitespace control
+
+### Available Variables
+
+**Static Data:**
+- `meta` - Application metadata
+- `modules`, `plugins`, `policies`, `nav` - Configuration data
+
+**Helpers:**
+- `url` - Base URL
+- `currentYear()` - Current year
+- `assetUrl(path)` - Asset URL converter
+- `link(path)` - Link URL converter
+- `isActive(currentPath, path)` - Path matching boolean
+- `isActiveClass(currentPath, path)` - Returns 'current' class if matching
+- `metaOrDefault(value, key)` - Meta value with fallback
+
+**Request Context:**
+- `currentPath` - Current request path
+- `reqData` - Query/route/payload data
+- `page` - Current page name
+- `layout` - Layout name
+- `watchHtml` - Dev reload HTML (dev only)
+
+### Essential Patterns
+
+**Conditionals:**
+```eta
+<% if (condition) { %>
+  content
+<% } else { %>
+  fallback
+<% } %>
+```
+
+**Loops:**
+```eta
+<% array.forEach(function(item) { %>
+  <%= item.property %>
+<% }) %>
+
+<% Object.keys(obj).forEach(function(key) { %>
+  <%= obj[key] %>
+<% }) %>
+```
+
+**Variable Output:**
+```eta
+<%= variable %>
+<%= helperFunction() %>
+<%= fallback || default %>
+```
+
+**Partials:**
+```eta
+<%~ include("./partial") %>
+<%~ await includeAsync("./partial", data) %>
+```
+
+**Safe Property Access:**
+```eta
+<%= obj?.property || "default" %>
+<% if (array && array.length > 0) { %>
+  content
+<% } %>
+```
+
+## More info
+
+- A full list of available ETA variables is found in @index.ts and @index.ts. See [nav.json](mdc:src/server/data/nav.json) for details on the `nav` variable.
+- ETA is configured so that we don't need to use `it.someVar` in the template syntax. Variables become globally available: `it.someVar.forEach()` can be `someVar.forEach()`
+- ETA Cheatsheet can be found at https://eta.js.org/docs/intro/syntax-cheatsheet

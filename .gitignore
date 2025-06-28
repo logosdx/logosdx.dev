@@ -1,0 +1,6 @@
+node_modules
+server/assets/build
+tmp/*
+.env
+src/server/assets/build/*
+.DS_Store

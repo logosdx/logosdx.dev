@@ -1,0 +1,170 @@
+@use 'sass:color';
+@use '../utils/variables.scss' as *;
+
+// Typography Base Styles
+body {
+    font-family: $font-family-primary;
+    font-size: $font-size-base;
+    font-weight: $font-weight-normal;
+    line-height: $line-height-normal;
+    letter-spacing: $letter-spacing-normal;
+    color: $color-text-primary;
+}
+
+// Headings
+h1 {
+    font-size: $font-size-4xl;
+    font-weight: $font-weight-bold;
+    line-height: $line-height-tight;
+    letter-spacing: $letter-spacing-tight;
+    font-family: $font-family-serif;
+    margin-bottom: 1rem;
+}
+
+h2 {
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-semibold;
+    font-family: $font-family-serif;
+    line-height: $line-height-tight;
+    letter-spacing: $letter-spacing-tight;
+    margin-bottom: 0.875rem;
+}
+
+h3 {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-semibold;
+    font-family: $font-family-serif;
+    line-height: $line-height-tight;
+    letter-spacing: $letter-spacing-tight;
+    margin-bottom: 0.75rem;
+}
+
+h4 {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-medium;
+    font-family: $font-family-serif;
+    line-height: $line-height-normal;
+    letter-spacing: $letter-spacing-tight;
+    margin-bottom: 0.625rem;
+}
+
+h5 {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-medium;
+    font-family: $font-family-serif;
+    line-height: $line-height-normal;
+    letter-spacing: $letter-spacing-tight;
+    margin-bottom: 0.5rem;
+}
+
+h6 {
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+    font-family: $font-family-serif;
+    line-height: $line-height-normal;
+    letter-spacing: $letter-spacing-tight;
+    margin-bottom: 0.5rem;
+}
+
+// Text Elements
+p {
+    margin-bottom: 1rem;
+    line-height: $line-height-relaxed;
+}
+
+a {
+    color: $color-brand;
+    text-decoration: none;
+    transition: color 0.2s ease, transform 0.2s ease;
+    transform: translateY(0);
+
+    &:hover {
+        color: color.adjust($color-brand, $lightness: 20%);
+        transform: translateY(-2px);
+    }
+}
+
+strong {
+    font-weight: $font-weight-semibold;
+}
+
+em {
+    font-style: italic;
+}
+
+// Code Elements
+code {
+    font-family: $font-family-mono;
+    font-size: 0.875em;
+    background-color: $color-background-code;
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+}
+
+pre {
+    font-family: $font-family-mono;
+    font-size: $font-size-sm;
+    line-height: $line-height-normal;
+    background-color: $color-background-pre;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+
+    code {
+        background: none;
+        padding: 0;
+    }
+
+    &:has(> code.hljs) {
+        background: $color-gh-dark-bg;
+    }
+}
+
+code {
+
+    &:not(.hljs) {
+        background: $color-gh-dark-bg;
+        color: $color-gh-dark-fg;
+    }
+}
+
+// Lists
+ul, ol {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+
+    li {
+        margin-bottom: 0.5rem;
+        line-height: $line-height-relaxed;
+    }
+}
+
+ul {
+    list-style-type: disc;
+}
+
+ol {
+    list-style-type: decimal;
+}
+
+// Blockquotes
+blockquote {
+    border-left: 4px solid $color-border-blockquote;
+    padding-left: 1rem;
+    margin: 1rem 0;
+    font-style: italic;
+    color: $color-text-secondary;
+}
+
+// Small Text
+small {
+    font-size: $font-size-sm;
+    color: $color-text-secondary;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid $color-border-blockquote;
+    margin: 1rem 0;
+}

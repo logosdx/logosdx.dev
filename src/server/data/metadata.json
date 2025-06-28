@@ -1,0 +1,28 @@
+{
+    "title": "LogosDX - Let There Be Logic",
+    "description": "LogosDX is a collection of packages for building web applications.",
+    "image": "https://logosdx.dev/assets/img/app-icon-red.png",
+    "keywords": [
+        "observer",
+        "state management",
+        "internationalitzation",
+        "i18n",
+        "localization",
+        "l10n",
+        "dom utils",
+        "processing utils",
+        "flow control",
+        "extend html",
+        "fetch wrapper"
+    ],
+
+    "robots": "index, follow",
+
+    "fbTitle": "LogosDX - Let There Be Logic",
+    "fbDescription": "LogosDX is a collection of packages for building web applications.",
+    "fbImage": "https://logosdx.dev/assets/img/app-icon-red.png",
+    "twitterTitle": "LogosDX - Let There Be Logic",
+    "twitterDescription": "LogosDX is a collection of packages for building web applications.",
+    "twitterImage": "https://logosdx.dev/assets/img/app-icon-red.png"
+
+}

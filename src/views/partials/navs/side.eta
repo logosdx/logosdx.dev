@@ -1,0 +1,22 @@
+<nav>
+
+    <% if (pathMatches(currentPath, '/docs')) { %>
+        <%~ include('@navs/_side-docs', it) %>
+    <% } %>
+
+    <% if (pathMatches(currentPath, '/packages')) { %>
+        <%~ include('@navs/_side-packages', it) %>
+    <% } %>
+</nav>
+
+<footer>
+    <p>
+        Copyright &copy;
+        <%= currentYear() %>
+        LogosDX
+    </p>
+</footer>
+
+<a class='toggle' onclick='observer.emit("SideNav:Toggle")'>
+    <i class='fa-sharp fa-ellipsis'></i>
+</a>

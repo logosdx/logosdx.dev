@@ -1,0 +1,61 @@
+@use '../utils/variables.scss' as *;
+
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+@mixin hide-mobile {
+    @media (max-width: $breakpoint-mobile) {
+        display: none;
+    }
+}
+
+@mixin hide-desktop {
+    @media (min-width: $breakpoint-mobile) {
+        display: none;
+    }
+}
+
+@mixin on-mobile {
+    @media (max-width: $breakpoint-mobile) {
+        @content;
+    }
+}
+
+@mixin on-desktop {
+    @media (min-width: $breakpoint-mobile) {
+        @content;
+    }
+}
+
+@mixin styled-code-container($color-border: #ed5b4b, $color-bg: #ed5b4b, $color-gradient1: #ee9187, $color-gradient2: #e9b579) {
+
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border: 3px solid $color-border;
+
+    background: $color-bg;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 150%;
+        height: 150%;
+        background: conic-gradient(from 0deg, $color-gradient1, $color-gradient2, $color-gradient1);
+        animation: spin 20s linear infinite;
+        z-index: -1;
+        filter: blur(60px);
+        opacity: 0.5;
+        border-radius: 50%;
+    }
+}

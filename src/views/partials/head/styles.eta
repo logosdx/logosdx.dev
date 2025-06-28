@@ -1,0 +1,11 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/styles/github-dark.min.css" />
+
+<link rel="stylesheet" href="<%= assetUrl('/vendors/fontawesome/css/fontawesome.min.css') %>" />
+<link rel="stylesheet" href="<%= assetUrl('/vendors/fontawesome/css/brands.min.css') %>" />
+<link rel="stylesheet" href="<%= assetUrl('/vendors/fontawesome/css/regular.min.css') %>" />
+<link rel="stylesheet" href="<%= assetUrl('/vendors/fontawesome/css/sharp-regular.min.css') %>" />
+
+
+<link rel="stylesheet" href="<%= assetUrl('/build/css/logosdx.css') %>">

@@ -1,0 +1,13 @@
+<h2>Docs</h2>
+<ul>
+    <% it.docs?.forEach(doc => { %>
+        <li>
+            <a
+                href="<%= doc.slug %>"
+                class="<%= isActiveClass(currentPath, doc.slug) %>"
+            >
+                <%= doc.label %>
+            </a>
+        </li>
+    <% }) %>
+</ul>

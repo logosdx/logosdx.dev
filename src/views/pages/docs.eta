@@ -1,0 +1,5 @@
+<% layout('./layouts/main.eta', it) %>
+
+<h1><%= meta.title %></h1>
+
+<%~ html %>

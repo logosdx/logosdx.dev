@@ -1,0 +1,6 @@
+
+<% layout('./layouts/main.eta', it) %>
+
+<h1 copy='.text'><%= title %></h1>
+
+<pre class='language-bash'><%= message %></pre>
