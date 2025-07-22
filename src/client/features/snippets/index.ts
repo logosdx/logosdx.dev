@@ -1,7 +1,7 @@
 import { $, appendBefore, appendIn, createElWith, html } from '@logosdx/dom';
 import { generateId } from '@logosdx/kit'
 
-const prepareSnippet = (pre: Element) => {
+export const bindSnippet = (pre: Element) => {
 
     const id = generateId();
 
@@ -47,19 +47,5 @@ const prepareSnippet = (pre: Element) => {
     appendBefore(pre, wrapper);
     appendIn(wrapper, pre);
 
-    html.behaviors.dispatchPrepare('copy');
-}
-
-export const bindSnippets = () => {
-
-    const pres = $('pre:has(>code[class*="language-"])');
-
-    pres.forEach((pre) => {
-
-        html.behaviors.bindBehavior(
-            pre,
-            'Snippet',
-            prepareSnippet
-        )
-    });
+    html.behaviors.dispatch('copy');
 }

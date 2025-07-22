@@ -1,7 +1,7 @@
 import { $, copyToClipboard, html } from '@logosdx/dom'
 import { observer } from '../utils/observer.ts';
 
-const prepareElement = (el: Element) => {
+export const bindCopy = (el: Element) => {
 
     const selector = el.getAttribute('copy');
     const copyText = el.getAttribute('copy-text');
@@ -37,6 +37,8 @@ const prepareElement = (el: Element) => {
             return;
         }
 
+        console.log('copying', text);
+
         copyToClipboard(text);
 
         observer.emit('Alert', {
@@ -44,19 +46,5 @@ const prepareElement = (el: Element) => {
             message: 'Copied to clipboard',
             duration: 200,
         })
-    });
-}
-
-export const bindCopy = () => {
-
-    const elements = $('[copy]');
-
-    elements.forEach((el) => {
-
-        html.behaviors.bindBehavior(
-            el,
-            'Copy',
-            prepareElement
-        )
     });
 }

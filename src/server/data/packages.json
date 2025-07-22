@@ -4,63 +4,55 @@
         "title": "Utils",
         "icon": "fa-solid fa-gear",
         "description": "Modern JavaScript utilities for the real world, featuring go-style error handling, modern data structure support, and battle-tested solutions for production applications.",
-        "metadata": {},
-        "githubLink": "https://api.github.com/repos/logosdx/monorepo/contents/docs/Packages/Utils.md"
+        "items": []
     },
     {
         "slug": "fetch",
         "title": "Fetch",
         "icon": "fa-solid fa-download",
         "description": "Modern HTTP client built on the Fetch API for the real world, providing production-ready features like retry logic and request cancellation.",
-        "metadata": {},
-        "githubLink": "https://api.github.com/repos/logosdx/monorepo/contents/docs/Packages/Fetch.md"
+        "items": []
     },
     {
         "slug": "observer",
         "title": "Observer",
         "icon": "fa-solid fa-eye",
         "description": "Advanced event-driven architecture library that goes beyond simple event emission, providing type-safe events, event promises, generators, validation, and comprehensive debugging tools.",
-        "metadata": {},
-        "githubLink": "https://api.github.com/repos/logosdx/monorepo/contents/docs/Packages/Observer.md"
+        "items": []
     },
     {
-        "slug": "statemachine",
+        "slug": "state-machine",
         "title": "StateMachine",
         "icon": "fa-solid fa-arrows-rotate",
         "description": "Stream-based state management with forward/backward navigation, reducer support, change listeners, and child instance cloning for complex application state management.",
-        "metadata": {},
-        "githubLink": "https://api.github.com/repos/logosdx/monorepo/contents/docs/Packages/StateMachine.md"
+        "items": []
     },
     {
         "slug": "localize",
         "title": "Localize",
         "icon": "fa-solid fa-language",
         "description": "Type-safe localization manager for managing translations, switching languages at runtime, and handling dynamic values in internationalized applications.",
-        "metadata": {},
-        "githubLink": "https://api.github.com/repos/logosdx/monorepo/contents/docs/Packages/Localize.md"
+        "items": []
     },
     {
         "slug": "storage",
         "title": "Storage",
         "icon": "fa-solid fa-database",
         "description": "Type-safe browser storage adapter with key prefixing, event handling, and convenient methods for managing localStorage and sessionStorage with enhanced functionality.",
-        "metadata": {},
-        "githubLink": "https://api.github.com/repos/logosdx/monorepo/contents/docs/Packages/Storage.md"
+        "items": []
     },
     {
         "slug": "kit",
         "title": "Kit",
         "icon": "fa-solid fa-box",
         "description": "Comprehensive library that combines all LogosDX packages into one streamlined toolkit, providing strong typing capabilities and enhanced development experience for both small and large-scale projects.",
-        "metadata": {},
-        "githubLink": "https://api.github.com/repos/logosdx/monorepo/contents/docs/Packages/Kit.md"
+        "items": []
     },
     {
         "slug": "dom",
         "title": "DOM",
         "icon": "fa-solid fa-code",
         "description": "DOM utilities that extend your programming abilities with time-saving tools for DOM manipulation, event handling, and attribute management.",
-        "metadata": {},
-        "githubLink": "https://api.github.com/repos/logosdx/monorepo/contents/docs/Packages/DOM.md"
+        "items": []
     }
 ]

@@ -29,6 +29,10 @@ $letter-spacing-tight: -0.025em;
 $letter-spacing-normal: 0;
 $letter-spacing-wide: 0.025em;
 
+$margin-bottom-tight: 0.5rem;
+$margin-bottom-normal: 1rem;
+$margin-bottom-relaxed: 1.5rem;
+
 // Color Variables
 $color-brand: #9c1424;
 
@@ -48,9 +52,6 @@ $color-info: #0000ff;
 // Highlight.js Variables
 $color-gh-dark-bg: #0d1117;
 $color-gh-dark-fg: #c9d1d9;
-
-// Layout Variables
-$layout-max-width: 1200px;
 
 // Responsive Variables
 $breakpoint-mobile: 768px;

@@ -23,7 +23,7 @@
     "@hapi/nes": "^14.0.1",
     "@hapi/vision": "^7.0.3",
     "@hapi/wreck": "^18.1.0",
-    "@logosdx/kit": "^1.0.4",
+    "@logosdx/kit": "^1.0.8",
     "eta": "^3.5.0",
     "exiting": "^7.0.0",
     "joi": "^17.13.3",
@@ -36,15 +36,15 @@
     "markdown-it-table-of-contents": "^0.8.0",
     "markdown-it-task-lists": "^2.1.1",
     "xml-js": "^1.6.11",
-    "yaml": "^2.7.0"
+    "yaml": "^2.7.0",
+    "tsx": "^4.19"
   },
   "devDependencies": {
     "@types/markdown-it": "^14",
     "@types/node": "^22",
-    "@logosdx/dom": "^1.1.1",
+    "@logosdx/dom": "^2.0.3",
     "chalk": "^5.4",
     "sass": "^1.89",
-    "tsx": "^4.19",
     "typescript": "^5.8",
     "vite": "^6"
   }

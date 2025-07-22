@@ -35,6 +35,4 @@ export const bindMouse = () => {
         'resize',
         throttle((evt) => observer.emit('Resize', evt as UIEvent), { delay: 100 })
     );
-
-
 }

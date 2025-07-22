@@ -186,7 +186,7 @@ body > .content {
             height: 100%;
         }
 
-        .toggle {
+        & > .toggle {
             display: none;
 
             position: absolute;
@@ -245,6 +245,7 @@ body > .content {
 
             li {
                 margin: 0;
+                position: relative;
 
                 a {
                     display: inline-block;
@@ -257,6 +258,63 @@ body > .content {
 
                     &:hover, &.active {
                         background-color: #00000010;
+                    }
+                }
+
+                // Submenu styles - collapsed by default
+                a + ul {
+                    margin-left: 1rem;
+                    margin-top: 0.25rem;
+                    max-height: 0;
+                    overflow: hidden;
+                    transition: max-height 0.3s ease;
+
+                    li a {
+                        font-size: 0.875rem;
+                        font-weight: 400;
+                        padding: 0.2rem 0.5rem;
+                        color: #00000080;
+
+                        &:hover, &.active {
+                            background-color: #00000008;
+                            color: #000;
+                        }
+                    }
+                }
+
+                // Add dropdown icon to package links that have submenus
+                .toggle {
+                    cursor: pointer;
+                    content: '\f107'; // FontAwesome chevron-down
+                    font-family: 'Font Awesome 6 Sharp';
+                    font-weight: 900;
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    padding: 0.5rem;
+                    font-size: 0.75rem;
+                    line-height: 1.25rem;
+                    color: #00000060;
+                    transition: transform 0.3s ease;
+
+                    &:hover {
+                        background-color: #00000010;
+                        transform: translateY(-3px);
+                    }
+                }
+
+                // Manual expanded state
+                &.expanded,
+                &.active {
+
+                    &  > a + ul,
+                    & > a + ul {
+
+                        max-height: 500px;
+                    }
+
+                    & + .toggle {
+                        transform: rotate(180deg);
                     }
                 }
             }

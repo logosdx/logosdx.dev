@@ -1,39 +1,32 @@
 ---
-title: Getting Started
-description: Getting Started
+title: LogosDX - Production-Grade JavaScript Utilities
+description: A comprehensive collection of battle-tested, type-safe utilities for building resilient web applications
 published: true
-publishedAt: 2024-06-06
-slug: getting-started
-excerpt: |
-    Get started with LogosDX and start extending your DOM usage today!
+publishedAt: 2025-07-13
+slug: home
 ---
 
-## Getting Started
+**Build resilient, type-safe applications with utilities designed for the real world.**
 
-Each package can be installed independently:
+LogosDX is a comprehensive collection of lightweight, battle-tested JavaScript utilities that solve the problems you encounter when applications hit production. From DOM manipulation to state management, from HTTP resilience to localization, every tool is designed with type safety, performance, and developer experience in mind.
 
-```bash
-npm install @logosdx/dom @logosdx/fetch @logosdx/observer
-```
+## Why LogosDX?
 
-Or get everything at once:
+Modern web development requires more than just frameworks. You need utilities that handle the complexity of real-world applications: flaky APIs, complex state management, internationalization, browser quirks, and performance concerns. LogosDX provides these essential building blocks with consistent APIs, comprehensive TypeScript support, and zero magic.
 
-```bash
-npm install @logosdx/kit
-```
+### Built for Production
 
-All packages work in modern browsers, Node.js, Deno, Bun, and React Native. TypeScript support is built-in, not bolted on.
+Every utility in LogosDX has been extracted from real systems running at scale. These aren't academic exercises—they're solutions to problems that have caused 3am alerts, prevented outages, and eliminated race conditions in production environments.
 
-## Framework Agnostic
+### Consistent Design Philosophy
 
-LogosDX utilities are designed to work with any framework or no framework at all:
+- **Type-safe by default** - Comprehensive TypeScript support with intelligent type inference
+- **Composable architecture** - Utilities work together seamlessly
+- **Zero magic** - Predictable behavior with clear contracts
+- **Modern JavaScript** - Built for ES2015+ with support for Map, Set, and other modern types
+- **Framework agnostic** - Works with React, Vue, vanilla JS, Node.js, and more
 
-- **React/Vue/Angular**: Perfect for handling side effects, state management, and DOM interactions
-- **Node.js**: Ideal for building resilient APIs and background services
-- **Vanilla JavaScript**: Powerful enough to build complete applications
-- **Web Workers**: Utilities work seamlessly in worker environments
-- **React Native**: Cross-platform event handling and state management
-
+## The Complete Toolkit
 
 ### DOM Manipulation
 
@@ -223,3 +216,19 @@ const kit = appKit({
     locales: { current: 'en', locales: { en, es } }
 });
 ```
+
+## Community & Support
+
+LogosDX is actively maintained and used in production applications. Each package includes comprehensive documentation, TypeScript definitions, and real-world examples.
+
+- **Full API Documentation**: [typedoc.logosdx.dev](https://typedoc.logosdx.dev)
+- **GitHub**: [github.com/logos-dx](https://github.com/logos-dx)
+- **Issues & Support**: Open source with active community support
+
+## The LogosDX Difference
+
+Unlike monolithic frameworks or single-purpose libraries, LogosDX provides a coherent set of utilities that work together while remaining completely optional. Use what you need, when you need it, with the confidence that comes from battle-tested code.
+
+Every line of code serves a purpose: solving real problems that real applications face in production. No academic exercises, no over-engineering—just practical solutions that make your applications more reliable, maintainable, and enjoyable to work with.
+
+Ready to build something amazing? Start with any package that solves your immediate need, and discover how LogosDX utilities work better together.

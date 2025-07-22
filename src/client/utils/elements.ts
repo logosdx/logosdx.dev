@@ -13,10 +13,10 @@ export const makeIcon = (
     assert(icon, 'Icon is required');
     assert(!opts || isObject(opts), 'Opts must be an object');
 
-    const { type = 'sharp', ...rest } = opts;
+    const { type = 'sharp', class: classes, ...rest } = opts;
 
     const el = createElWith('i', {
-        class: [`fa-${type}`, `fa-${icon}`],
+        class: [`fa-${type}`, `fa-${icon}`, ...(classes || [])],
         ...rest,
     });
 

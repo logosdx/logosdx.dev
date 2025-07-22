@@ -3,7 +3,7 @@
         {
             "label": "Packages",
             "icon": "fa-sharp fa-box",
-            "href": "/packages/dom"
+            "href": "/packages/utils"
         },
         {
             "label": "Docs",

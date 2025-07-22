@@ -1,5 +1,2 @@
-<% layout('./layouts/main.eta', it) %>
+<% layout('./layouts/full-width.eta', it) %>
 
-<h1 copy='.text'>Home</h1>
-
-<p class='text'>This is a test</p>

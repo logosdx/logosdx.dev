@@ -109,6 +109,6 @@ export const youtubePlugin = (md: MarkdownIt) => {
 
         const style = width && height ? `style="width: ${width}px; height: ${height}px; border: 0;"` : '';
 
-        return `<section class="youtube"><iframe src="${url}" ${style} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></section>`;
+        return `<section class="youtube"><iframe src="${url}" ${style} width="${width}" height="${height}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></section>`;
     };
 };

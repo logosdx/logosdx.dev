@@ -36,21 +36,19 @@ const resizeVideos = () => {
 
         const { height, width } = html.attrs.get(iframe, ['width', 'height']);
 
-        const aspect = parseInt(width) / parseInt(height);
+        const aspect = parseInt(width!) / parseInt(height!);
 
         const container = video as VideoContainer;
 
         container[ASPECT_RATIO] = {
-            width: parseInt(width),
-            height: parseInt(height),
+            width: parseInt(width!),
+            height: parseInt(height!),
             aspect,
             iframe,
         };
     });
 
     videos.forEach((video) => {
-
-        console.log(video[ASPECT_RATIO])
 
         const { aspect, iframe } = video[ASPECT_RATIO];
 

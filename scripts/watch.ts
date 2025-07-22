@@ -121,7 +121,7 @@ const enactChanges = debounce((from: string) => {
 
     // Clear the changes
     changed.clear();
-}, 100);
+}, { delay: 100 });
 
 
 // Create a listener for file changes

@@ -1,4 +1,6 @@
+import { $, appendIn } from '@logosdx/dom';
 import { observer } from '../../utils/observer.ts';
+import { makeIcon } from '../../utils/elements.ts';
 
 declare global {
     interface FrontendEvents {
@@ -14,6 +16,25 @@ declare global {
 }
 
 export const bindMobileMenu = () => {
+
+    const desktopSubNavs = $('li:has(ul)', window.sideNav);
+    const mobileSubNavs = $('li:has(ul)', window.mobile);
+
+    [
+        ...desktopSubNavs,
+        ...mobileSubNavs,
+    ].forEach((subNavContainer) => {
+
+        const subNav = $('ul', subNavContainer);
+        console.log(subNavContainer, subNav);
+
+        if (subNav.length === 0) return;
+
+        const icon = makeIcon('chevron-down', { class: ['toggle'] });
+
+        appendIn(subNavContainer, icon);
+
+    });
 
     observer.on('MobileMenu:Open', () => {
 
@@ -44,6 +65,24 @@ export const bindMobileMenu = () => {
 
         const target = evt.target as HTMLElement;
         const sideNav = window.sideNav;
+
+        // Handle package submenu toggle only for links in the side nav
+        if (
+            target.classList.contains('toggle') &&
+            target.parentElement?.nodeName === 'LI' &&
+            target.closest('#sideNav')
+        ) {
+
+            const icon = target as HTMLElement;
+            const submenu = icon.previousElementSibling as HTMLUListElement;
+            const listItem = icon.parentElement as HTMLLIElement;
+
+            if (submenu && submenu.tagName === 'UL') {
+                evt.preventDefault();
+                listItem?.classList.toggle('expanded');
+                return;
+            }
+        }
 
         if (
             sideNav?.classList.contains('open')

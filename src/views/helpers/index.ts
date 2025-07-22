@@ -49,7 +49,14 @@ const viewHelpers = (server: Server) => {
     const isActive = (currentPath: string, path: string) => currentPath === path;
 
     // Check if the current path is the same as the path and returns a class name
-    const isActiveClass = (currentPath: string, path: string) => isActive(currentPath, path) ? 'active' : '';
+    const isActiveClass = (currentPath: string, path: string) => (
+        (
+            currentPath.startsWith(path) ||
+            isActive(currentPath, path)
+        )
+            ? 'active'
+            : ''
+    );
 
     // Get the meta value or the default value
     const metaOrDefault = (value: string, key: keyof typeof metadata) => value || metadata[key];

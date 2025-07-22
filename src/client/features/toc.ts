@@ -280,7 +280,7 @@ export const bindToc = () => {
     // Add the TOC to the state
     tocState.toc = toc;
 
-    observer.on('Scroll', debounce(() => tocScrollFeatures(hierarchy), 200));
+    observer.on('Scroll', debounce(() => tocScrollFeatures(hierarchy), { delay: 200 }));
 
     tocScrollFeatures(hierarchy);
 }

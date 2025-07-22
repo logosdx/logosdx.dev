@@ -1,11 +1,12 @@
 import Fs from 'fs';
 import Path from 'path';
 
-import { Lifecycle, Request, Server, ServerRoute } from '@hapi/hapi';
+import { Lifecycle, Request, RouteOptions, Server, ServerRoute } from '@hapi/hapi';
 import * as Boom from '@hapi/boom';
 import * as Hoek from '@hapi/hoek'
 
 import { Frontmatter } from '../methods/markdown/helpers.ts';
+import { merge } from '@logosdx/kit';
 
 declare module '@hapi/hapi' {
     interface RouteOptionsApp {
@@ -21,13 +22,21 @@ declare module '@hapi/hapi' {
     }
 }
 
-const docsPath = Path.resolve(import.meta.dirname, '../../docs');
+export const docsPath = Path.resolve(import.meta.dirname, '../../docs');
 
-const findMarkdownFiles = (path: string) => {
+export const findMarkdownFiles = (path: string, exclude: string[] = []) => {
+
+    const excludeRgx = new RegExp(`(${exclude.join('|')})`);
 
     const files = Fs.readdirSync(path);
-    const markdownFiles = files.filter((file) => file.endsWith('.md'));
-    const directories = files.filter((file) => Fs.statSync(`${path}/${file}`).isDirectory());
+    const markdownFiles = files
+        .filter((file) => file.endsWith('.md'))
+        .filter((file) => !excludeRgx.test(file))
+    ;
+    const directories = files
+        .filter((file) => Fs.statSync(`${path}/${file}`).isDirectory())
+        .filter((file) => !excludeRgx.test(file))
+    ;
 
     directories.forEach((directory) => {
 
@@ -38,7 +47,7 @@ const findMarkdownFiles = (path: string) => {
     return markdownFiles;
 }
 
-const onPreAuth = (metadata: Frontmatter): Lifecycle.Method => {
+export const onPreAuth = (metadata: Frontmatter): Lifecycle.Method => {
 
     const {
         published,
@@ -65,7 +74,7 @@ const onPreAuth = (metadata: Frontmatter): Lifecycle.Method => {
     return hook;
 }
 
-const parseMarkdownFile = async (server: Server, mdFile: string) => {
+export const parseMarkdownFile = async (server: Server, mdFile: string) => {
 
     const content = Fs.readFileSync(`${docsPath}/${mdFile}`, 'utf8');
     const stats = Fs.statSync(`${docsPath}/${mdFile}`);
@@ -85,9 +94,9 @@ const parseMarkdownFile = async (server: Server, mdFile: string) => {
     };
 };
 
-const getMarkdownData = async (server: Server) => {
+export const getMarkdownData = async (server: Server, exclude: string[] = []) => {
 
-    const mdFiles = findMarkdownFiles(docsPath);
+    const mdFiles = findMarkdownFiles(docsPath, exclude);
 
     const data = await Promise.all(mdFiles.map((mdFile) => parseMarkdownFile(server, mdFile)));
 
@@ -99,7 +108,7 @@ const getMarkdownData = async (server: Server) => {
     );
 }
 
-const makeDocsNavData = (data: { metadata: Frontmatter, html: string }[]) => {
+export const makeDocsNavData = (data: { metadata: Frontmatter, html: string }[]) => {
 
     const nav = data.map((item) => ({
         label: item.metadata.title,
@@ -110,50 +119,36 @@ const makeDocsNavData = (data: { metadata: Frontmatter, html: string }[]) => {
     return nav;
 }
 
-export default async (server: Server): Promise<ServerRoute[]> => {
+export type MakeRouteConfigOpts = {
+    metadata: Frontmatter,
+    handler: Lifecycle.Method,
+    slug?: string,
+    options?: RouteOptions,
+}
 
-    const data = await getMarkdownData(server);
-    const nav = makeDocsNavData(data);
+export const makeRouteConfig = (opts: MakeRouteConfigOpts): ServerRoute => ({
 
-    return data.map(({ metadata, html }) => ({
-        method: 'GET',
-        path: metadata.slug!,
-        handler(_: Request, h) {
-
-            const context = { meta: metadata, html, docs: nav };
-            const viewOpts = { layout: metadata.layout };
-
-            let res = h.view('docs', context, viewOpts);
-
-            if (metadata.httpHeaders) {
-
-                Object.entries(metadata.httpHeaders).forEach(([key, val]) => {
-
-                    res = res.header(key, val as string);
-                });
-            }
-
-            return res.code(200);
+    method: 'GET',
+    path: opts.slug || opts.metadata.slug!.replace(/\/$/, ''),
+    handler: opts.handler,
+    options: merge({
+        cache: opts.metadata.cache,
+        app: {
+            publishedAt: opts.metadata.publishedAt,
+            updatedAt: opts.metadata.updatedAt,
+            published: opts.metadata.published,
+            title: opts.metadata.title,
+            description: opts.metadata.description,
+            image: opts.metadata.image,
+            author: opts.metadata.author,
+            keywords: opts.metadata.tags?.join(',') || '',
         },
-        options: {
-            cache: metadata.cache,
-            app: {
-                publishedAt: metadata.publishedAt,
-                updatedAt: metadata.updatedAt,
-                published: metadata.published,
-                title: metadata.title,
-                description: metadata.description,
-                image: metadata.image,
-                author: metadata.author,
-                keywords: metadata.tags?.join(',') || '',
-            },
-            ext: {
-                onPreAuth: [
-                    {
-                        method: onPreAuth(metadata),
-                    }
-                ]
-            }
+        ext: {
+            onPreAuth: [
+                {
+                    method: onPreAuth(opts.metadata),
+                }
+            ]
         }
-    }));
-};
+    }, opts.options || {}) as RouteOptions
+});

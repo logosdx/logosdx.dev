@@ -6,7 +6,6 @@ import Joi from 'joi';
 
 import {
     inMinutes,
-    dependencyInjectServer,
     registerMethods,
     validateEnv,
     registerExtensions,
@@ -20,10 +19,10 @@ import AppRoutes from './routes/index.ts';
 import AppMethods from './methods/index.ts';
 
 import {
-    Packages,
     Metadata,
     Nav,
-    Redirects
+    Redirects,
+    Packages
 } from './data/index.ts';
 
 declare module '@hapi/hapi' {

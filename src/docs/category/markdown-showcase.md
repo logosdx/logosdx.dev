@@ -12,7 +12,7 @@ Each markdown file is rendered as a page. The frontmatter is used to generate th
 
 ## Frontmatter
 
-Required frontmatter:
+**Required frontmatter:**
 
 ```yaml
 title: CodeSandbox Test
@@ -22,7 +22,22 @@ publishedAt: 2024-01-01 # Can be future dated
 slug: test-codesandbox # Used for the URL, must be unique, will be prefixed with docs/
 ```
 
-Optional frontmatter:
+**About `slug`:**
+
+- Must be unique
+- If initial `/` is not provided, or if it begins with `./`:
+  - It will be prefixed with `docs/:folder-name/:slug`
+- If initial `/` is provided, it will be an absolute path
+- If initial `./` is provided, it will be prefixed with `docs/:folder-name/`
+
+**Valid slugs:**
+
+- `test-codesandbox` => `docs/category/test-codesandbox`
+- `./test-codesandbox` => `docs/category/test-codesandbox`
+- `/test-codesandbox` => `/test-codesandbox`
+- `/sub-path/test-codesandbox` => `/sub-path/test-codesandbox`
+
+**Optional frontmatter:**
 
 
 ```yaml
@@ -83,6 +98,8 @@ redirect: # If you want to redirect the page
 ## Callouts
 
 <callout>
+
+# Callout
 
 This is a test of the Callout plugin. [a link](https://www.google.com)
 

@@ -13,7 +13,7 @@ declare global {
 
 const domain = window.location.host;
 
-const fixLink = (el: Element) => {
+export const fixLink = (el: Element) => {
 
     const link = el as HTMLAnchorElement;
 
@@ -36,24 +36,3 @@ const fixLink = (el: Element) => {
     // prevent the link from being indexed by search engines
     link.rel = 'noopener noreferrer';
 }
-
-const fixLinks = () => {
-
-    const links = $('a') as HTMLAnchorElement[];
-
-    links.forEach((link) => {
-
-        html.behaviors.bindBehavior(
-            link,
-            'LinkFix',
-            fixLink
-        )
-    })
-}
-
-export const bindLinks = () => {
-
-    observer.on('LinkFix', () => fixLinks());
-
-    fixLinks();
-};

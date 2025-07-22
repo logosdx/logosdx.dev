@@ -1,13 +1,22 @@
 <h2>Packages</h2>
 <ul>
     <% packages.forEach(pkg => { %>
-        <li>
-            <a
-                href="/packages/<%= pkg.slug %>"
-                class="<%= isActiveClass(currentPath, pkg.slug) %>"
-            >
+        <li class="<%= isActiveClass(currentPath, `/packages/${pkg.slug}`) %>">
+            <a href="/packages/<%= pkg.slug %>">
                 <%= pkg.title %>
             </a>
+            <% console.log(currentPath, pkg.slug) %>
+            <% if (pkg.items && pkg.items.length > 0) { %>
+                <ul>
+                    <% pkg.items.forEach(item => { %>
+                        <li class="<%= isActiveClass(currentPath, `/packages/${pkg.slug}${item.slug}`) %>">
+                            <a href="/packages/<%= pkg.slug %><%= item.slug %>">
+                                <%= item.title %>
+                            </a>
+                        </li>
+                    <% }) %>
+                </ul>
+            <% } %>
         </li>
     <% }) %>
 </ul>

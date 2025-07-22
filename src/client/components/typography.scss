@@ -1,6 +1,8 @@
 @use 'sass:color';
 @use '../utils/variables.scss' as *;
 
+
+
 // Typography Base Styles
 body {
     font-family: $font-family-primary;
@@ -18,7 +20,7 @@ h1 {
     line-height: $line-height-tight;
     letter-spacing: $letter-spacing-tight;
     font-family: $font-family-serif;
-    margin-bottom: 1rem;
+    margin-bottom: $margin-bottom-relaxed;
 }
 
 h2 {
@@ -27,7 +29,7 @@ h2 {
     font-family: $font-family-serif;
     line-height: $line-height-tight;
     letter-spacing: $letter-spacing-tight;
-    margin-bottom: 0.875rem;
+    margin-bottom: $margin-bottom-relaxed;
 }
 
 h3 {
@@ -36,7 +38,7 @@ h3 {
     font-family: $font-family-serif;
     line-height: $line-height-tight;
     letter-spacing: $letter-spacing-tight;
-    margin-bottom: 0.75rem;
+    margin-bottom: $margin-bottom-normal;
 }
 
 h4 {
@@ -45,7 +47,7 @@ h4 {
     font-family: $font-family-serif;
     line-height: $line-height-normal;
     letter-spacing: $letter-spacing-tight;
-    margin-bottom: 0.625rem;
+    margin-bottom: $margin-bottom-normal;
 }
 
 h5 {
@@ -54,7 +56,7 @@ h5 {
     font-family: $font-family-serif;
     line-height: $line-height-normal;
     letter-spacing: $letter-spacing-tight;
-    margin-bottom: 0.5rem;
+    margin-bottom: $margin-bottom-normal;
 }
 
 h6 {
@@ -63,12 +65,12 @@ h6 {
     font-family: $font-family-serif;
     line-height: $line-height-normal;
     letter-spacing: $letter-spacing-tight;
-    margin-bottom: 0.5rem;
+    margin-bottom: $margin-bottom-normal;
 }
 
 // Text Elements
 p {
-    margin-bottom: 1rem;
+    margin-bottom: $margin-bottom-relaxed;
     line-height: $line-height-relaxed;
 }
 
@@ -109,7 +111,7 @@ pre {
     padding: 1rem;
     border-radius: 0.5rem;
     overflow-x: auto;
-    margin-bottom: 1rem;
+    margin-bottom: $margin-bottom-relaxed;
 
     code {
         background: none;
@@ -131,7 +133,7 @@ code {
 
 // Lists
 ul, ol {
-    margin-bottom: 1rem;
+    margin-bottom: $margin-bottom-relaxed;
     padding-left: 1.5rem;
 
     li {
@@ -152,7 +154,7 @@ ol {
 blockquote {
     border-left: 4px solid $color-border-blockquote;
     padding-left: 1rem;
-    margin: 1rem 0;
+    margin: $margin-bottom-relaxed 0;
     font-style: italic;
     color: $color-text-secondary;
 }
@@ -166,5 +168,5 @@ small {
 hr {
     border: 0;
     border-top: 1px solid $color-border-blockquote;
-    margin: 1rem 0;
+    margin: $margin-bottom-relaxed 0;
 }

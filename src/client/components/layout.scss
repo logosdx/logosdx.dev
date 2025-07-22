@@ -1,7 +1,64 @@
+@use 'sass:color';
 @use '../utils/variables.scss' as *;
 @use '../utils/mixins.scss' as *;
+
+
+// Layout Variables
+$layout-max-width: 1200px;
+
+// Table Variables
+$table-border-color: #000000;
+$table-border-radius: 0.5rem;
+$table-padding: 0.5rem;
+
+$cell-border-color: #00000010;
+$cell-bg-color-header: #00000020;
+$cell-bg-color-even: #00000008;
+$cell-bg-color-hover: #00000010;
 
 .container {
     max-width: $layout-max-width;
     margin: 0 auto;
+}
+
+table {
+    max-width: max-content;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-radius: $table-border-radius;
+    border: 3px solid $table-border-color;
+    overflow: auto;
+    position: relative;
+    display: block;
+    margin-bottom: 2rem;
+
+
+    th, td {
+        padding: 0.5rem;
+        min-width: 150px;
+        border: 1px solid $cell-border-color;
+    }
+
+    th {
+        background-color: $cell-bg-color-header;
+        text-align: left;
+    }
+
+    tr:nth-child(even) {
+        background-color: $cell-bg-color-even;
+    }
+
+    tr:hover {
+        background-color: $cell-bg-color-hover;
+    }
+
+    code:not(.hljs) {
+        color: $color-gh-dark-bg;
+        background-color: color.adjust($color-gh-dark-fg, $alpha: -0.5);
+    }
+
+    &.sticky {
+        position: sticky;
+        z-index: 1;
+    }
 }
