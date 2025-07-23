@@ -12,7 +12,11 @@ declare global {
     interface FrontendEvents extends BodyEvents {}
 }
 
-
+/**
+ * Makes the body scrollable or not depending on the event.
+ * Because when we're focusing on certain UI elements, we don't
+ * want the body to scroll. Use this when opening modals, navs, etc.
+ */
 export const bindBody = () => {
 
     observer.on('Lock', () => {

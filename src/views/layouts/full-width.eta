@@ -9,7 +9,7 @@
     <%~ include('@head/scripts', it) %>
 
 </head>
-<body>
+<body class='<%= it.page %> full-width'>
 
     <%~ include('@navs/main', it) %>
 
@@ -17,6 +17,7 @@
 
     <div class='content'>
         <%~ body %>
+        <%~ include('@footer/footer', it) %>
     </div>
 
     <%~ include('@scripts/scripts', it) %>

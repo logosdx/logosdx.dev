@@ -8,7 +8,7 @@ import {
     spawnSync
 } from 'child_process';
 
-import { attemptSync, Deferred } from '@logosdx/kit';
+import { attemptSync, Deferred, wait } from '@logosdx/kit';
 import C from 'chalk';
 
 /**
@@ -93,10 +93,11 @@ export const procs: Record<
  * and when needing to restart the process. Allows for
  * custom callbacks after the spawn and close events.
  */
-export const spawnAndReload = (
+export const spawnAndReload = async (
     procKey: keyof typeof procs,
     command: string,
     opts: {
+        onForce?: (pid: number) => void;
         beforeSpawn?: () => Promise<void> | void;
         afterSpawn?: () => void;
         afterClose?: (code?: number | null) => void;
@@ -107,6 +108,7 @@ export const spawnAndReload = (
         beforeSpawn = () => {},
         afterSpawn = () => {},
         afterClose = () => {},
+        onForce = () => {},
     } = opts;
 
     const proc = procs[procKey];
@@ -138,10 +140,17 @@ export const spawnAndReload = (
     // If the process is running, kill it
     if (proc.exitCode === null) {
 
+        const pid = proc.pid;
 
         proc.once('close', respawn);
-
         proc.kill('SIGTERM');
+
+        await wait(1000);
+
+        if (pidRunning(pid)) {
+            onForce(pid!);
+        }
+
         return;
     }
 
@@ -158,13 +167,33 @@ export const sh = (args: string, opts?: SpawnSyncOptionsWithBufferEncoding) => {
 
     opts = opts || { stdio: 'inherit' };
 
-    const { status } = spawnSync(
+    return spawnSync(
         'sh',
         ['-c', args],
         opts
     );
+}
 
-    return status;
+/**
+ * Check if a PID is running
+ */
+export const pidRunning = (pid?: number | null) => {
+
+    if (!pid) {
+        return null;
+    }
+
+    const { status } = sh(`ps -p ${pid} -o pid=`);
+
+    return status === 0;
+}
+
+/**
+ * Kill a process by PID
+ */
+export const killPid = (pid: number) => {
+
+    sh(`kill -9 ${pid}`);
 }
 
 /**
@@ -174,7 +203,11 @@ export const sh = (args: string, opts?: SpawnSyncOptionsWithBufferEncoding) => {
  */
 export const killPort = (port: number) => {
 
-    sh(`kill -9 $(lsof -t -i:${port})`);
+    const { stdout } = sh(`lsof -t -i:${port}`);
+
+    if (stdout) {
+        killPid(Number(stdout));
+    }
 }
 
 /**

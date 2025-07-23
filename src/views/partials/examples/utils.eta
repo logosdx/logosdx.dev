@@ -1,0 +1,14 @@
+<div class='package-code'>
+    <pre><code class='language-typescript'>const [user, err] = await attempt(() =>
+    retry(() => fetchUser(id), {
+        retries: 3,
+        shouldRetry: (err) => err.status >= 500
+    })
+);</code></pre>
+    <button class='copy-button' copy copy-text='const [user, err] = await attempt(() =>
+    retry(() => fetchUser(id), {
+        retries: 3,
+        shouldRetry: (err) => err.status >= 500
+    })
+);'>Copy</button>
+</div>

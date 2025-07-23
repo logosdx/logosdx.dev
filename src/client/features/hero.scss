@@ -1,0 +1,65 @@
+@use '../utils/variables.scss' as *;
+@use '../utils/mixins.scss' as *;
+
+// Home Page Specific Variables
+$hero-gradient-start: #f8fafc;
+$hero-gradient-end: #f1f5f9;
+
+.hero {
+
+    background: linear-gradient(135deg, $hero-gradient-start 0%, $hero-gradient-end 100%);
+    padding: 4rem 2rem 3rem;
+    text-align: center;
+    border-bottom: 1px solid $color-border-blockquote;
+
+    @include on-mobile {
+        padding: 3rem 1rem 2rem;
+    }
+
+    & > .content {
+        max-width: $breakpoint-mobile;
+        margin: 0 auto;
+
+        .title {
+            font-size: $font-size-5xl;
+            margin-bottom: 1.5rem;
+            color: $color-text-primary;
+
+            @include on-mobile {
+                font-size: $font-size-3xl;
+                margin-bottom: 1rem;
+            }
+        }
+
+        .subtitle {
+            font-size: $font-size-xl;
+            color: $color-text-secondary;
+            margin-bottom: 2rem;
+            line-height: $line-height-relaxed;
+
+            @include on-mobile {
+                font-size: $font-size-lg;
+                margin-bottom: 1.5rem;
+            }
+        }
+
+        .cta {
+            display: inline-flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+
+            @include on-mobile {
+                flex-direction: column;
+                width: 100%;
+                gap: 0.75rem;
+            }
+        }
+
+        .examples {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            text-align: left;
+        }
+    }
+}

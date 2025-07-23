@@ -1,21 +1,83 @@
-import { $, copyToClipboard, html } from '@logosdx/dom'
-import { observer } from '../utils/observer.ts';
+import { $, copyToClipboard, createElWith, html } from '@logosdx/dom'
+import { state as mouseState } from './mouse.ts';
+import { attemptSync } from '@logosdx/kit';
 
+/**
+ * Let the user know that the text has been copied to the clipboard.
+ */
+const copyAlert = () => {
+
+    const { x, y } = mouseState.mouseUp;
+
+    const alert = createElWith('div', {
+        class: ['alert', 'success', 'xs', 'animate__fadeIn', 'animate__animated'],
+        css: {
+            position: 'fixed',
+            zIndex: '1000',
+            left: `${x+3}px`,
+            top: `${y+3}px`,
+            animationDuration: '0.25s',
+        },
+        text: 'Copied!',
+    });
+
+    document.body.appendChild(alert);
+
+    setTimeout(() => {
+        alert.classList.add('animate__fadeOut')
+        alert.classList.remove('animate__fadeIn')
+        setTimeout(() => alert.remove(), 250);
+    }, 250);
+}
+
+/**
+ * Extend the DOM with copy behavior. Any element with the `copy` attribute
+ * or `copy-text` attribute will have the copy behavior.
+ *
+ * `copy` is a selector that will be used to find the elements to copy innerText from.
+ * `copy-text` is a text that will be copied to the clipboard.
+ *
+ * Example:
+ *
+ * Copy the text of the first paragraph:
+ *
+ * ```html
+ * <button copy="p">Copy</button>
+ *
+ * <p>Hello, world!</p>
+ * ```
+ *
+ * Copy the text "Hello, world!":
+ *
+ * ```html
+ * <button copy-text="Hello, world!">Copy</button>
+ * ```
+ *
+ *
+ */
 export const bindCopy = (el: Element) => {
 
     const selector = el.getAttribute('copy');
-    const copyText = el.getAttribute('copy-text');
+    const hasCopyText = el.hasAttribute('copy-text');
 
-    if (!selector && !copyText) {
-        console.warn('No selector found for copy behavior', el);
+    if (!selector && !hasCopyText) {
+        console.warn('No selector or copy-text found for copy behavior', el);
         return;
     }
 
     html.events.on(el, 'click', () => {
 
+        const copyText = el.getAttribute('copy-text');
+
+        if (hasCopyText && !copyText) {
+            console.warn('No copy-text found for copy behavior', el);
+            return;
+        }
+
         if (copyText) {
 
-            copyToClipboard(copyText);
+            attemptSync(() => copyToClipboard(copyText));
+            copyAlert();
 
             return;
         }
@@ -37,14 +99,7 @@ export const bindCopy = (el: Element) => {
             return;
         }
 
-        console.log('copying', text);
-
         copyToClipboard(text);
-
-        observer.emit('Alert', {
-            type: 'success',
-            message: 'Copied to clipboard',
-            duration: 200,
-        })
+        copyAlert();
     });
 }

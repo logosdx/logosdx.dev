@@ -22,13 +22,7 @@ Works in: Node, browsers, Cloudflare Workers, React Native.
 
 ```bash
 npm install @logosdx/utils
-```
-
-```bash
 pnpm add @logosdx/utils
-```
-
-```bash
 yarn add @logosdx/utils
 ```
 

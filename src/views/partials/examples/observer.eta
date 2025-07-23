@@ -1,0 +1,18 @@
+<div class='package-code'>
+    <pre><code class='language-typescript'>const observer = new ObserverEngine&lt;Events&gt;();
+
+// Listen to all user events with regex
+observer.on(/user:/, ({ event, data }) => {
+    if (event === 'user:login') {
+        welcomeUser(data.name);
+    }
+});</code></pre>
+    <button class='copy-button' copy copy-text='const observer = new ObserverEngine<Events>();
+
+// Listen to all user events with regex
+observer.on(/user:/, ({ event, data }) => {
+    if (event === "user:login") {
+        welcomeUser(data.name);
+    }
+});'>Copy</button>
+</div>

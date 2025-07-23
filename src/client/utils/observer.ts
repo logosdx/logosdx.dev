@@ -22,7 +22,7 @@ declare global {
 
 export const observer = new ObserverEngine<FrontendEvents>({
     name: 'frontend',
-    spy: isViteLocalDev ? (act) => console.info(
+    spy: isViteLocalDev && false ? (act) => console.info(
         'Observer: ',
         act.fn,
         act.event,

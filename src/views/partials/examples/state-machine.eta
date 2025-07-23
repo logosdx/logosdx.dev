@@ -1,0 +1,16 @@
+<div class='package-code'>
+    <pre><code class='language-typescript'>const stateMachine = new StateMachine&lt;AppState, Action&gt;(
+    initialState
+);
+
+stateMachine.addReducer((action, state) => {
+    return { ...state, user: action.user };
+});</code></pre>
+    <button class='copy-button' copy copy-text='const stateMachine = new StateMachine<AppState, Action>(
+    initialState
+);
+
+stateMachine.addReducer((action, state) => {
+    return { ...state, user: action.user };
+});'>Copy</button>
+</div>

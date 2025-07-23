@@ -1,7 +1,3 @@
-import { $, html } from '@logosdx/dom';
-
-import { observer } from '../utils/observer.ts';
-
 interface LinksEvents {
 
     LinkFix: null;
@@ -13,6 +9,11 @@ declare global {
 
 const domain = window.location.host;
 
+/**
+ * Any links that are not pointing to the current domain should
+ * open in a new tab. They should also protect user privacy and
+ * tabnabbing attacks.
+ */
 export const fixLink = (el: Element) => {
 
     const link = el as HTMLAnchorElement;

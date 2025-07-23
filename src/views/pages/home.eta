@@ -1,2 +1,270 @@
 <% layout('./layouts/full-width.eta', it) %>
 
+<main>
+    <!-- Hero Section -->
+    <section class='hero'>
+        <div class='content'>
+            <h1 class='title'>Production-Grade JavaScript Utilities</h1>
+            <p class='subtitle'>Build resilient, type-safe applications with utilities designed for the real world. Battle-tested, composable, and framework agnostic.</p>
+
+            <div class='cta'>
+                <a href='/docs/getting-started' class='button'>Get Started</a>
+                <a href='https://github.com/logos-dx' class='button hollow'>View on GitHub</a>
+            </div>
+
+            <div class='examples'>
+                <%~ include('@examples/hero', it) %>
+            </div>
+        </div>
+    </section>
+
+    <!-- Value Proposition Section -->
+    <section class='value-prop'>
+        <div class='container'>
+            <h2>Why LogosDX?</h2>
+            <p>Modern web development requires more than just frameworks. You need utilities that handle the complexity of real-world applications: flaky APIs, complex state management, internationalization, browser quirks, and performance concerns.</p>
+
+            <div class='benefits'>
+                <div class='benefit'>
+                    <div class='benefit-icon'>
+                        <i class='fa-sharp fa-shield'></i>
+                    </div>
+                    <h3>Type-Safe by Default</h3>
+                    <p>Comprehensive TypeScript support with intelligent type inference. Catch errors at build time, not runtime.</p>
+                </div>
+
+                <div class='benefit'>
+                    <div class='benefit-icon'>
+                        <i class='fa-sharp fa-cubes'></i>
+                    </div>
+                    <h3>Composable Architecture</h3>
+                    <p>Utilities work together seamlessly. Use what you need, when you need it, with consistent APIs across packages.</p>
+                </div>
+
+                <div class='benefit'>
+                    <div class='benefit-icon'>
+                        <i class='fa-sharp fa-rocket'></i>
+                    </div>
+                    <h3>Production-Proven</h3>
+                    <p>Extracted from real systems running at scale. These solutions have prevented outages and eliminated race conditions.</p>
+                </div>
+
+                <div class='benefit'>
+                    <div class='benefit-icon'>
+                        <i class='fa-sharp fa-puzzle-piece'></i>
+                    </div>
+                    <h3>Framework Agnostic</h3>
+                    <p>Works with React, Vue, vanilla JS, Node.js, and more. No vendor lock-in, just solid utilities.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Package Showcase Section -->
+    <section class='packages'>
+        <div class='container'>
+            <h2>The Complete Toolkit</h2>
+
+            <div class='package-grid'>
+                <!-- Utils Package -->
+                <article class='package-card'>
+                    <div class='package-header'>
+                        <div class='package-icon'>
+                            <i class='fa-sharp fa-wrench'></i>
+                        </div>
+                        <div class='package-title'>
+                            <h3>@logosdx/utils</h3>
+                            <p class='package-description'>Flow control, data structures, and runtime type safety</p>
+                        </div>
+                    </div>
+                    <ul class='package-features'>
+                        <li>Resilience primitives: retry, circuit breaker, rate limiting</li>
+                        <li>Safe data operations for modern JS types</li>
+                        <li>Runtime type guards and assertions</li>
+                        <li>Memory-safe memoization and caching</li>
+                    </ul>
+                    <%~ include('@examples/utils', it) %>
+                    <a href='/docs/packages/utils' class='package-link'>Explore Utils</a>
+                </article>
+
+                <!-- Fetch Package -->
+                <article class='package-card'>
+                    <div class='package-header'>
+                        <div class='package-icon'>
+                            <i class='fa-sharp fa-cloud-arrow-down'></i>
+                        </div>
+                        <div class='package-title'>
+                            <h3>@logosdx/fetch</h3>
+                            <p class='package-description'>HTTP client with production-grade resilience</p>
+                        </div>
+                    </div>
+                    <ul class='package-features'>
+                        <li>Built-in retry logic with exponential backoff</li>
+                        <li>Request cancellation and timeout handling</li>
+                        <li>Observable request lifecycle with events</li>
+                        <li>Standards-first design extending native Fetch</li>
+                    </ul>
+                    <%~ include('@examples/fetch', it) %>
+                    <a href='/docs/packages/fetch' class='package-link'>Explore Fetch</a>
+                </article>
+
+                <!-- Observer Package -->
+                <article class='package-card'>
+                    <div class='package-header'>
+                        <div class='package-icon'>
+                            <i class='fa-sharp fa-satellite-dish'></i>
+                        </div>
+                        <div class='package-title'>
+                            <h3>@logosdx/observer</h3>
+                            <p class='package-description'>Type-safe event system with memory-leak protection</p>
+                        </div>
+                    </div>
+                    <ul class='package-features'>
+                        <li>Regex-based event matching for structured events</li>
+                        <li>Promise and generator support for async flow</li>
+                        <li>Built-in memory management and debugging</li>
+                        <li>Works in Node, browsers, workers, React Native</li>
+                    </ul>
+                    <%~ include('@examples/observer', it) %>
+                    <a href='/docs/packages/observer' class='package-link'>Explore Observer</a>
+                </article>
+
+                <!-- DOM Package -->
+                <article class='package-card'>
+                    <div class='package-header'>
+                        <div class='package-icon'>
+                            <i class='fa-sharp fa-code'></i>
+                        </div>
+                        <div class='package-title'>
+                            <h3>@logosdx/dom</h3>
+                            <p class='package-description'>Lightweight DOM manipulation toolkit</p>
+                        </div>
+                    </div>
+                    <ul class='package-features'>
+                        <li>Intuitive selectors with $() and html.events</li>
+                        <li>Declarative behavior binding with cleanup</li>
+                        <li>Type-safe CSS and attribute manipulation</li>
+                        <li>Viewport utilities and element positioning</li>
+                    </ul>
+                    <%~ include('@examples/dom', it) %>
+                    <a href='/docs/packages/dom' class='package-link'>Explore DOM</a>
+                </article>
+
+                <!-- State Machine Package -->
+                <article class='package-card'>
+                    <div class='package-header'>
+                        <div class='package-icon'>
+                            <i class='fa-sharp fa-gears'></i>
+                        </div>
+                        <div class='package-title'>
+                            <h3>@logosdx/state-machine</h3>
+                            <p class='package-description'>State management with time travel capabilities</p>
+                        </div>
+                    </div>
+                    <ul class='package-features'>
+                        <li>Stream-based state updates with reducers</li>
+                        <li>Forward and backward navigation through history</li>
+                        <li>Child instance clones for ephemeral state</li>
+                        <li>Perfect for complex forms and document editors</li>
+                    </ul>
+                    <%~ include('@examples/state-machine', it) %>
+                    <a href='/docs/packages/state-machine' class='package-link'>Explore State Machine</a>
+                </article>
+
+                <!-- Localize Package -->
+                <article class='package-card'>
+                    <div class='package-header'>
+                        <div class='package-icon'>
+                            <i class='fa-sharp fa-globe'></i>
+                        </div>
+                        <div class='package-title'>
+                            <h3>@logosdx/localize</h3>
+                            <p class='package-description'>Type-safe localization with dynamic switching</p>
+                        </div>
+                    </div>
+                    <ul class='package-features'>
+                        <li>Type-safe translation keys and values</li>
+                        <li>Runtime language switching and dictionary updates</li>
+                        <li>Nested object support with dot notation</li>
+                        <li>Event-driven language change notifications</li>
+                    </ul>
+                    <%~ include('@examples/localize', it) %>
+                    <a href='/docs/packages/localize' class='package-link'>Explore Localize</a>
+                </article>
+
+                <!-- Storage Package -->
+                <article class='package-card'>
+                    <div class='package-header'>
+                        <div class='package-icon'>
+                            <i class='fa-sharp fa-database'></i>
+                        </div>
+                        <div class='package-title'>
+                            <h3>@logosdx/storage</h3>
+                            <p class='package-description'>Type-safe storage adapter for any storage backend</p>
+                        </div>
+                    </div>
+                    <ul class='package-features'>
+                        <li>Type-safe key-value operations</li>
+                        <li>Event-driven storage change notifications</li>
+                        <li>Prefix support for namespace isolation</li>
+                        <li>Works with localStorage, sessionStorage, custom</li>
+                    </ul>
+                    <%~ include('@examples/storage', it) %>
+                    <a href='/docs/packages/storage' class='package-link'>Explore Storage</a>
+                </article>
+
+                <!-- Kit Package -->
+                <article class='package-card'>
+                    <div class='package-header'>
+                        <div class='package-icon'>
+                            <i class='fa-sharp fa-toolbox'></i>
+                        </div>
+                        <div class='package-title'>
+                            <h3>@logosdx/kit</h3>
+                            <p class='package-description'>All packages combined into unified toolkit</p>
+                        </div>
+                    </div>
+                    <ul class='package-features'>
+                        <li>Every LogosDX package in one import</li>
+                        <li>Unified configuration interface</li>
+                        <li>Streamlined instantiation process</li>
+                        <li>Perfect for new projects</li>
+                    </ul>
+                    <%~ include('@examples/kit', it) %>
+                    <a href='/docs/packages/kit' class='package-link'>Explore Kit</a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof Section -->
+    <section class='social-proof'>
+        <div class='container'>
+            <h2>Built for Production</h2>
+            <p>Every utility in LogosDX has been extracted from real systems running at scale. These aren't academic exercises—they're solutions to problems that have caused 3am alerts, prevented outages, and eliminated race conditions in production environments.</p>
+
+            <div class='community-links'>
+                <a href='https://typedoc.logosdx.dev' target='_blank' rel='noopener noreferrer'>
+                    <i class='fa-sharp fa-book'></i>
+                    API Documentation
+                </a>
+                <a href='https://github.com/logos-dx' target='_blank' rel='noopener noreferrer'>
+                    <i class='fa-brands fa-github'></i>
+                    GitHub
+                </a>
+                <a href='https://github.com/logos-dx/logosdx/issues' target='_blank' rel='noopener noreferrer'>
+                    <i class='fa-sharp fa-circle-question'></i>
+                    Support
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class='final-cta'>
+        <div class='container'>
+            <h2>Ready to Build Something Amazing?</h2>
+            <p>Start with any package that solves your immediate need, and discover how LogosDX utilities work better together.</p>
+            <a href='/docs/getting-started' class='button'>Get Started Today</a>
+        </div>
+</section>

@@ -31,7 +31,7 @@ export const watchPlugin: Plugin<{}, {}> = {
         server.method('watchHtml', () => watchHtml);
 
         // Connect the server to the watch server
-        server.events.once('start', () => serverWatchConnect());
+        server.events.once('start', () => serverWatchConnect(server));
     }
 }
 

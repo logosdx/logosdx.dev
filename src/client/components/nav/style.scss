@@ -310,7 +310,7 @@ body > .content {
                     &  > a + ul,
                     & > a + ul {
 
-                        max-height: 500px;
+                        max-height: fit-content;
                     }
 
                     & + .toggle {
@@ -350,7 +350,7 @@ body > .content {
 
     main {
         flex: 1;
-        padding: 1rem;
+        padding: 2rem;
         overflow-y: auto;
     }
 }

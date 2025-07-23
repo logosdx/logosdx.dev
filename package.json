@@ -26,6 +26,7 @@
     "@logosdx/kit": "^1.0.8",
     "eta": "^3.5.0",
     "exiting": "^7.0.0",
+    "highlight.js": "^11.11.1",
     "joi": "^17.13.3",
     "markdown-it": "^14.1.0",
     "markdown-it-abbr": "^2.0.0",
@@ -35,14 +36,14 @@
     "markdown-it-front-matter": "^0.2.4",
     "markdown-it-table-of-contents": "^0.8.0",
     "markdown-it-task-lists": "^2.1.1",
+    "tsx": "^4.19",
     "xml-js": "^1.6.11",
-    "yaml": "^2.7.0",
-    "tsx": "^4.19"
+    "yaml": "^2.7.0"
   },
   "devDependencies": {
+    "@logosdx/dom": "^2.0.4",
     "@types/markdown-it": "^14",
     "@types/node": "^22",
-    "@logosdx/dom": "^2.0.3",
     "chalk": "^5.4",
     "sass": "^1.89",
     "typescript": "^5.8",

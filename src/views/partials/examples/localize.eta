@@ -1,0 +1,16 @@
+<div class='package-code'>
+    <pre><code class='language-typescript'>const locales = new LocaleManager({
+    current: 'en',
+    fallback: 'en',
+    locales: { en: english, es: spanish }
+});
+
+const greeting = locales.t('welcome.message', { name });</code></pre>
+    <button class='copy-button' copy copy-text='const locales = new LocaleManager({
+    current: "en",
+    fallback: "en",
+    locales: { en: english, es: spanish }
+});
+
+const greeting = locales.t("welcome.message", { name });'>Copy</button>
+</div>

@@ -1,0 +1,56 @@
+@use 'sass:color';
+@use '../utils/variables' as *;
+
+@mixin button(
+    $color: $color-brand,
+    $color-text: $color-text-invert,
+    $color-border: $color-brand
+) {
+
+    $bg-color1: $color;
+    $bg-color2: color.adjust($color, $lightness: -10%);
+
+    background: linear-gradient(135deg, $bg-color1 25%, $bg-color2 100%);
+    border: 2px solid $color-border;
+    color: color.mix($color, $color-text, 20%);
+
+    &:hover {
+        color: $color-text;
+    }
+
+    &.hollow {
+        background: transparent;
+        color: $color;
+    }
+}
+
+@mixin button-size($scale: 1) {
+    padding: $scale * 0.875rem $scale * 1.75rem;
+}
+
+button, .button {
+
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: $font-weight-semibold;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+
+    &:hover {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+    }
+
+    @include button-size(1);
+    @include button;
+
+    &.sm { @include button-size(0.875); }
+    &.lg { @include button-size(1.25); }
+    &.xl { @include button-size(1.5); }
+
+    &.success { @include button($color: $color-success); }
+    &.error { @include button($color: $color-error); }
+    &.warning { @include button($color: $color-warning, $color-text: $color-text-primary); }
+    &.info { @include button($color: $color-info); }
+
+    &.white { @include button($color: $color-text-invert, $color-text: $color-text-primary); }
+}

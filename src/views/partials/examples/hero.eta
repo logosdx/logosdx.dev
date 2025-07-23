@@ -1,0 +1,10 @@
+<pre><code class='language-typescript'>import { attempt, retry, FetchEngine } from '@logosdx/kit';
+
+const api = new FetchEngine({
+    baseUrl: 'https://api.example.com',
+    retryConfig: { maxAttempts: 3 }
+});
+
+const [user, error] = await attempt(() =>
+    retry(() => api.get('/user/profile'))
+);</code></pre>

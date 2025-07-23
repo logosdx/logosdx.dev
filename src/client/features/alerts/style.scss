@@ -50,6 +50,26 @@
         @include alert-color($color-info, $color-text-invert);
     }
 
+    &.xs {
+        padding: 0.15rem 0.5rem;
+        font-size: 0.75rem;
+    }
+
+    &.sm {
+        padding: 0.25rem 1rem;
+        font-size: 0.875rem;
+    }
+
+    &.md {
+        padding: 0.5rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    &.lg {
+        padding: 1rem 2rem;
+        font-size: 1.125rem;
+    }
+
     .close, .copy {
         position: absolute;
         @include flex-center;

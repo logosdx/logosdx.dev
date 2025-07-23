@@ -28,6 +28,7 @@ declare global {
         highlightBlock: (element: HTMLElement) => void
         highlightElement: (element: HTMLElement) => void
         highlightAll: () => void
+        addPlugin: (plugin: any) => void
     }
 
     const hljs: HighlightJS;

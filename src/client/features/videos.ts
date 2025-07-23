@@ -68,6 +68,11 @@ const resizeVideos = () => {
     });
 }
 
+
+/**
+ * Whenever we resize the window, iFrames will lose their aspect ratio.
+ * This makes sure that iFrame embeds (videos) maintain their aspect ratio.
+ */
 export const bindVideos = () => {
 
     observer.on('VideoResize', () => resizeVideos());

@@ -44,6 +44,9 @@ importers:
       exiting:
         specifier: ^7.0.0
         version: 7.0.0(@hapi/hapi@21.4.0)
+      highlight.js:
+        specifier: ^11.11.1
+        version: 11.11.1
       joi:
         specifier: ^17.13.3
         version: 17.13.3
@@ -82,8 +85,8 @@ importers:
         version: 2.7.0
     devDependencies:
       '@logosdx/dom':
-        specifier: ^2.0.3
-        version: 2.0.3
+        specifier: ^2.0.4
+        version: 2.0.4
       '@types/markdown-it':
         specifier: ^14
         version: 14.1.1
@@ -509,8 +512,8 @@ packages:
   '@hapi/wreck@18.1.0':
     resolution: {integrity: sha512-0z6ZRCmFEfV/MQqkQomJ7sl/hyxvcZM7LtuVqN3vdAO4vM9eBbowl0kaqQj9EJJQab+3Uuh1GxbGIBFy4NfJ4w==}
 
-  '@logosdx/dom@2.0.3':
-    resolution: {integrity: sha512-YizZPRwqDdmD1lWvYAemOH0jbtEf/PaXmFjXiEmAVxHgpzSg9RxCtsdh6C8zgUkatvlX/DxEZ2LPlCxRsLTOww==}
+  '@logosdx/dom@2.0.4':
+    resolution: {integrity: sha512-unAtXNidECdEWApjB/cc4UQJ2aNF8zfH8jHmS55SHHfLyzn8whnvAeGTludaocgsVAcX/hzbi3QmUP3BJjlrAA==}
 
   '@logosdx/fetch@1.1.3':
     resolution: {integrity: sha512-S3fCqOoSoY7scq7P4qYwrx54NFU1+VQNXRci+VsFvn7J9TDyrhOjOfYi1onhSUhrABPBcFaJICdVVCYz6kSsVQ==}
@@ -792,6 +795,10 @@ packages:
 
   get-tsconfig@4.7.5:
     resolution: {integrity: sha512-ZCuZCnlqNzjb4QprAzXKdpp/gh6KTxSJuw3IBsPnV/7fV4NxC9ckB+vPTt8w7fJA0TaSD7c55BR47JD6MEDyDw==}
+
+  highlight.js@11.11.1:
+    resolution: {integrity: sha512-Xwwo44whKBVCYoliBQwaPvtd/2tYFkRQtXDWj1nackaV2JPXx3L0+Jvd8/qCJ2p+ML0/XVkJ2q+Mr+UVdpJK5w==}
+    engines: {node: '>=12.0.0'}
 
   immutable@5.0.3:
     resolution: {integrity: sha512-P8IdPQHq3lA1xVeBRi5VPqUm5HDgKnx0Ru51wZz5mjxHr5n3RWhjIpOFU7ybkUxfB+5IToy+OLaHYDBIWsv+uw==}
@@ -1345,7 +1352,7 @@ snapshots:
       '@hapi/bourne': 3.0.0
       '@hapi/hoek': 11.0.7
 
-  '@logosdx/dom@2.0.3':
+  '@logosdx/dom@2.0.4':
     dependencies:
       '@logosdx/utils': 2.0.3
 
@@ -1617,6 +1624,8 @@ snapshots:
   get-tsconfig@4.7.5:
     dependencies:
       resolve-pkg-maps: 1.0.0
+
+  highlight.js@11.11.1: {}
 
   immutable@5.0.3: {}
 

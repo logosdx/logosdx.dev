@@ -9,7 +9,7 @@
     <%~ include('@head/scripts', it) %>
 
 </head>
-<body>
+<body class='<%= it.page %> main'>
 
     <%~ include('@navs/main', it) %>
 
@@ -22,7 +22,9 @@
 
         <main class='container'>
             <%~ body %>
+            <%~ include('@footer/footer', it) %>
         </main>
+
     </div>
 
     <%~ include('@scripts/scripts', it) %>

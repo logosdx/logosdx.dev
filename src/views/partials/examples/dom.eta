@@ -1,0 +1,16 @@
+<div class='package-code'>
+    <pre><code class='language-typescript'>html.behaviors.create({
+    tooltip: {
+        els: '[tooltip], [title]',
+        handler: (el) => new Tooltip(el),
+        shouldObserve: true
+    }
+});</code></pre>
+    <button class='copy-button' copy copy-text='html.behaviors.create({
+    tooltip: {
+        els: "[tooltip], [title]",
+        handler: (el) => new Tooltip(el),
+        shouldObserve: true
+    }
+});'>Copy</button>
+</div>

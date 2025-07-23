@@ -9,7 +9,7 @@ import C from 'chalk';
 
 const serverWatchClient = new Nes.Client('ws://<%= it.host %>:<%= it.port %>');
 
-export const serverWatchConnect = async () => {
+export const serverWatchConnect = async (server: Server) => {
 
     try {
         serverWatchClient.onError = (e) => {
@@ -21,6 +21,8 @@ export const serverWatchConnect = async () => {
         }
         await serverWatchClient.connect();
         await serverWatchClient.message({ server: true });
+
+        server.events.on('stop', () => serverWatchClient.disconnect());
     }
     catch (e) {
 

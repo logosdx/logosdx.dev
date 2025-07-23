@@ -1,0 +1,16 @@
+<div class='package-code'>
+    <pre><code class='language-typescript'>const storage = new StorageAdapter&lt;Schema&gt;(
+    localStorage, 
+    'myapp'
+);
+
+storage.set('user', userData);
+storage.on('user', (newUser) => updateUI(newUser));</code></pre>
+    <button class='copy-button' copy copy-text='const storage = new StorageAdapter<Schema>(
+    localStorage, 
+    "myapp"
+);
+
+storage.set("user", userData);
+storage.on("user", (newUser) => updateUI(newUser));'>Copy</button>
+</div>

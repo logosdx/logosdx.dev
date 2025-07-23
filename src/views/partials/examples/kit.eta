@@ -1,0 +1,14 @@
+<div class='package-code'>
+    <pre><code class='language-typescript'>const kit = appKit({
+    observer: { name: 'app-events' },
+    fetch: { baseUrl: 'https://api.example.com' },
+    storage: { implementation: localStorage },
+    locales: { current: 'en', locales: { en, es } }
+});</code></pre>
+    <button class='copy-button' copy copy-text='const kit = appKit({
+    observer: { name: "app-events" },
+    fetch: { baseUrl: "https://api.example.com" },
+    storage: { implementation: localStorage },
+    locales: { current: "en", locales: { en, es } }
+});'>Copy</button>
+</div>

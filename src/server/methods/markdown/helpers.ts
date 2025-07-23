@@ -7,6 +7,7 @@ import MarkdownItAbbr from 'markdown-it-abbr';
 import * as MarkdownItEmoji from 'markdown-it-emoji';
 import MarkdownItFootnote from 'markdown-it-footnote';
 import MarkdownTaskList from 'markdown-it-task-lists';
+import HLJS from 'highlight.js';
 
 import { frontmatterPlugin } from './plugins/frontmatter.ts';
 import { codesandboxPlugin } from './plugins/codesandbox.ts';
@@ -144,7 +145,11 @@ export const markdown = new MarkdownIt({
             lang = 'bash';
         }
 
-        return `<pre><code class="language-${lang}">${str}</code></pre>`;
+        const highlighted = HLJS.highlight(
+            str, { language: lang || 'text' }
+        ).value;
+
+        return highlighted;
     },
 })
     .use(frontmatterPlugin)

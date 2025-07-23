@@ -1,11 +1,17 @@
 @use './utils/reset.scss';
 @use './utils/animations.scss';
 
-@use './features/snippets/style.scss' as *;
-@use './features/alerts/style.scss' as *;
-
 @use './components/typography.scss';
+@use './components/button.scss';
 @use './components/layout.scss';
 @use './components/nav/style.scss' as *;
 @use './components/markdown/style.scss' as *;
 @use './components/callout.scss';
+@use './components/footer.scss';
+
+@use './features/snippets/style.scss' as *;
+@use './features/alerts/style.scss' as *;
+@use './features/hero.scss' as *;
+
+
+@use './pages/home.scss' as *;

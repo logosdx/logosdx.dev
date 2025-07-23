@@ -1,3 +1,10 @@
+/**
+ * This feature is for adding a table of contents to the
+ * side nav based on the headings in the page. It will
+ * automatically insert, and scroll to the heading when
+ * the user clicks on it.
+ */
+
 import {
     $,
     html,
@@ -5,40 +12,53 @@ import {
     createElWith,
     appendIn,
     createEl,
-    isInViewport
+    isInViewport,
+    appendBefore
 } from '@logosdx/dom';
 
 import { memoizeSync, debounce } from '@logosdx/kit';
 import { observer } from '../utils/observer.ts';
+import { makeIcon } from '../utils/elements.ts';
 
 /**
- * This feature is used to add a table of contents to the
- * side nav based on the headings in the page. It will
- * automatically insert, and scroll to the heading when
- * the user clicks on it.
- */
-
-/**
- * A heading object
+ * The data structure used to represent headings and their
+ * hierarchy.
  */
 type Heading = {
     level: number;
     text: string;
     element: HTMLElement;
+    distanceUntilNext: number;
     link: HTMLElement | null;
     children?: Heading[];
 }
 
+/**
+ * We need to hoist the TOC root element, and the nav
+ * height to calculate scrolling offsets.
+ */
 const tocState = {
     toc: null as Element | null,
     navHeight: 0
 }
 
 /**
- * Make a hierarchy of headings
- * @param headings - The headings to make a hierarchy of
- * @returns A hierarchy of headings
+ * For storing the the parent list element
  */
+export const PARENT_LIST = Symbol('parentList');
+
+export interface TocHeading extends HTMLHeadingElement {
+    [PARENT_LIST]?: Element;
+}
+
+const getFlatHeadings = (hierarchy: Heading[]): Heading[] => {
+
+    return hierarchy.flatMap((heading) => {
+
+        return [heading, ...getFlatHeadings(heading.children || [])];
+    });
+}
+
 const makeHeadingHierarchy = (headings: Element[]) => {
 
     const hierarchy: Heading[] = [];
@@ -62,6 +82,7 @@ const makeHeadingHierarchy = (headings: Element[]) => {
             level,
             text: text || '',
             element: heading as HTMLElement,
+            distanceUntilNext: 0,
             link: null,
             children: []
         };
@@ -86,15 +107,31 @@ const makeHeadingHierarchy = (headings: Element[]) => {
         stack.push({ level, node: headingObj });
     });
 
+    const flat = getFlatHeadings(hierarchy);
+
+    flat.forEach((heading, index) => {
+
+        let next = flat[index + 1];
+
+        const nextRect = next?.element.getBoundingClientRect() || { top: 0, bottom: 0 };
+        const currRect = heading.element.getBoundingClientRect();
+
+        if (index === flat.length - 1) {
+
+            heading.distanceUntilNext = document.body.scrollHeight - currRect.bottom;
+        }
+
+        if (!next) {
+            return;
+        }
+
+        heading.distanceUntilNext = nextRect.top - currRect.top;
+        heading.distanceUntilNext < 0 && (heading.distanceUntilNext = 0);
+    });
+
     return hierarchy;
 }
 
-/**
- * Make a TOC list
- * @param hierarchy - The hierarchy of headings
- * @param appendTo - The element to append the list to
- * @returns The list of headings
- */
 const makeTocList = (hierarchy: Heading[], appendTo: Element) => {
 
     const list = createElWith('ul', {
@@ -102,6 +139,10 @@ const makeTocList = (hierarchy: Heading[], appendTo: Element) => {
     });
 
     hierarchy.forEach((heading) => {
+
+        const headingEl = heading.element as TocHeading;
+
+        headingEl[PARENT_LIST] = list;
 
         const item = createElWith('li', {
             class: heading.children?.length ? ['has-children'] : []
@@ -115,7 +156,10 @@ const makeTocList = (hierarchy: Heading[], appendTo: Element) => {
 
                     scrollToElement(
                         heading.element as HTMLElement,
-                        tocState.navHeight + 25
+                        {
+                            behavior: 'smooth',
+                            offset: tocState.navHeight + 25
+                        }
                     );
 
                     heading.element.id && (
@@ -146,18 +190,7 @@ const makeTocList = (hierarchy: Heading[], appendTo: Element) => {
 }
 
 const flatHeadings = memoizeSync(
-    (hierarchy: Heading[]): Heading[] => {
-
-
-        const flat = hierarchy.flatMap((heading) => {
-
-            const children = flatHeadings(heading.children || []);
-
-            return [heading, ...children || []];
-        });
-
-        return flat;
-    },
+    getFlatHeadings,
     {
         ttl: 5 * 60 * 1000,
         maxSize: 1000,
@@ -181,7 +214,34 @@ const getAsideNav = memoizeSync(
     }
 )
 
-const tocScrollFeatures = (hierarchy: Heading[]) => {
+const headingIsVisible = (heading: Heading) => {
+
+    const headingEl = heading.element as TocHeading;
+    const rect = headingEl?.getBoundingClientRect() || { top: 0, bottom: 0 };
+    let elementTop = rect.top;
+
+    // If the heading is above the viewport, we calculate the difference
+    // between the heading and the next heading, which should give us the
+    // space between the two headings (the content).
+    if (elementTop < 0) {
+        elementTop = rect.top + heading.distanceUntilNext - 100;
+    }
+
+    if (elementTop < 0) {
+
+        return false;
+    }
+
+    if (elementTop > window.innerHeight) {
+
+        return false;
+    }
+
+    return true;
+
+}
+
+const calculateScrollPosition = (hierarchy: Heading[]) => {
 
     const flat = flatHeadings(hierarchy);
     const nav = getAsideNav();
@@ -191,23 +251,33 @@ const tocScrollFeatures = (hierarchy: Heading[]) => {
         return;
     }
 
+    let top: number | null = null;
+
     $('.toc .active', nav).forEach(
         li => li.classList.remove('active')
     );
 
-    let top: number | null = null;
-
     flat.reverse().forEach((heading) => {
 
-        if (isInViewport(heading.element as HTMLElement)) {
+        if (headingIsVisible(heading)) {
+
+            const headingEl = heading.element as TocHeading;
+            const parentList = headingEl[PARENT_LIST];
+
+            if (parentList) {
+
+                parentList.parentElement?.classList.add('active');
+                parentList.previousElementSibling?.classList.add('active');
+            }
 
             heading.link?.classList.add('active');
+            heading.link?.parentElement?.classList.add('active');
 
             if (!isInViewport(heading.link as HTMLElement)) {
 
-                console.log(heading.link, isInViewport(heading.link as HTMLElement))
+                const pos = heading.link?.getBoundingClientRect();
 
-                top = (heading.link?.offsetTop || 0) - 100;
+                top = (pos?.top || 0) - 100;
             }
         }
     })
@@ -224,7 +294,14 @@ const tocScrollFeatures = (hierarchy: Heading[]) => {
 }
 
 /**
- * Bind the TOC feature
+ * Creates a table of contents on the side nav, dynamically,
+ * based on the headings in the page. It will also scroll to
+ * the heading when the user clicks on it. As the user scrolls,
+ * heading links will be highlighted, and the nav itself will
+ * be scrolled to the active heading.
+ *
+ * Works on mobile or desktop, so that the user can always find
+ * their way around the page.
  */
 export const bindToc = () => {
 
@@ -239,11 +316,7 @@ export const bindToc = () => {
     const [main] = $('main');
     const [sideNav] = $('body > .content > aside > nav');
 
-    if (
-        !sideNav ||
-        !nav ||
-        !main
-    ) {
+    if (!sideNav || !nav || !main) {
         console.warn('TOC: Could not find required elements');
 
         return;
@@ -255,7 +328,6 @@ export const bindToc = () => {
         text: 'Table of Contents'
     });
 
-    // Get all the headings in the page
     const headings = $('h2, h3, h4, h5, h6', main);
 
     if (headings.length === 0) {
@@ -263,24 +335,43 @@ export const bindToc = () => {
         return;
     }
 
-    // Make a hierarchy of headings
     const hierarchy = makeHeadingHierarchy(headings);
-
-    // Make the TOC list
     const toc = makeTocList(hierarchy, sideNav);
 
-    // Set to the top so we have a reference point
     toc.classList.add('top');
 
     const hr = createEl('hr');
 
-    // Add the heading to the TOC
     appendIn(sideNav, hr, heading, toc);
 
-    // Add the TOC to the state
     tocState.toc = toc;
 
-    observer.on('Scroll', debounce(() => tocScrollFeatures(hierarchy), { delay: 200 }));
+    flatHeadings(hierarchy).forEach((heading) => {
 
-    tocScrollFeatures(hierarchy);
+        const url = new URL(window.location.href);
+        const hash = encodeURIComponent(heading.element.id);
+        url.hash = hash;
+
+        const icon = makeIcon('link', { class: ['icon'] });
+
+        appendBefore(
+            heading.element.firstChild as HTMLElement,
+            ' ',
+            icon
+        );
+
+        const link = createElWith('a', {
+            attrs: {
+                href: url.toString(),
+            },
+            class: ['heading']
+        })
+
+        appendBefore(heading.element, link);
+        appendIn(link, heading.element);
+    });
+
+    observer.on('Scroll', debounce(() => calculateScrollPosition(hierarchy), { delay: 200 }));
+
+    calculateScrollPosition(hierarchy);
 }

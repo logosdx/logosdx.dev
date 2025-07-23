@@ -18,6 +18,7 @@ import {
     helpText,
     saveEnv,
     portOccupied,
+    killPid,
 } from './_helpers.ts';
 import { ignore } from '@hapi/hoek';
 
@@ -61,56 +62,19 @@ const enactChanges = debounce((from: string) => {
         from.includes('views')
     ) {
 
-        const beforeSpawn = async (attempt: number = 0) => {
+        spawnAndReload(
+            'server',
+            'run server',
+            {
+                onForce: (pid) => killPid(pid),
+                afterClose(code) {
+                    if (code === 1) {
 
-            const APP_PORT = process.env.APP_PORT;
-
-            if (!APP_PORT) {
-                return;
-            }
-
-            if (attempt > 3) {
-
-                log(C.red('Port is still occupied, killing process...'));
-                killPort(Number(APP_PORT));
-
-                await wait(100);
-
-                return;
-            }
-
-            const occupied = await portOccupied(Number(APP_PORT));
-
-            if (occupied) {
-
-                log(C.red('Port is occupied, waiting for it to be released...'));
-                await wait(100);
-                return beforeSpawn(attempt + 1);
-            }
-        }
-
-        const afterClose = async (code?: number | null) => {
-
-            const APP_PORT = process.env.APP_PORT;
-
-            if (code === 1) {
-
-                log(C.red('Server crashed, retrying once more...'));
-
-                (await portOccupied(Number(APP_PORT))) && killPort(Number(APP_PORT));
-
-                spawnAndReload(
-                    'server',
-                    'run server', {
-                        beforeSpawn,
-                        // Prevent circular crashes from dev errors
-                        afterClose: ignore
+                        killPid(Number(process.env.APP_PORT));
                     }
-                )
+                },
             }
-        }
-
-        spawnAndReload('server', 'run server', { beforeSpawn, afterClose });
+        );
     }
 
     // If the changes are from the client, restart the client
