@@ -1,0 +1,27 @@
+# LogosDX
+
+> Focused TypeScript utilities for building JavaScript applications in any runtime. Zero dependencies, type-safe, and designed for production resilience.
+
+LogosDX provides a collection of packages that work together or independently. Each package follows consistent patterns: error tuples with `attempt()`, event-driven architecture, and comprehensive TypeScript support.
+
+## Documentation
+
+- [Getting Started](https://logosdx.dev/getting-started): Installation and basic usage
+- [API Reference](https://typedoc.logosdx.dev): Full TypeScript API documentation
+- [Cheat Sheet](https://logosdx.dev/cheat-sheet): Quick reference for common patterns
+
+## Packages
+
+- [dom](https://logosdx.dev/llm/dom.html): DOM manipulation utilities for CSS, attributes, events, and behaviors
+- [fetch](https://logosdx.dev/llm/fetch.html): HTTP client with retries, timeouts, lifecycle hooks, and streaming
+- [hooks](https://logosdx.dev/llm/hooks.html): Lifecycle event system for extensible architectures
+- [localize](https://logosdx.dev/llm/localize.html): Lightweight i18n with ICU message syntax, plural rules, and a CLI extractor
+- [observer](https://logosdx.dev/llm/observer.html): Typed event system with regex subscriptions, async iteration, and queues
+- [react](https://logosdx.dev/llm/react.html): React context providers and hooks for Observer, Fetch, Storage, Localize, and State Machine
+- [state-machine](https://logosdx.dev/llm/state-machine.html): Finite state machines with guards, async invoke, persistence, and type-safe transitions
+- [storage](https://logosdx.dev/llm/storage.html): Type-safe persistence with pluggable drivers, scoped prefixes, and event hooks
+- [utils](https://logosdx.dev/llm/utils.html): Error tuples, retry, circuit breakers, rate limiting, validation, and data operations
+
+## Optional
+
+- [GitHub Repository](https://github.com/logosdx/monorepo): Source code and issue tracker
